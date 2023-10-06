@@ -8,6 +8,7 @@ use App\User;
 use App\Library;
 use App\PersonalProfile;
 use App\RegistrationProfile;
+use App\Feedback;
 use Auth;
 
 class PersonalProfileController extends Controller
@@ -28,7 +29,8 @@ class PersonalProfileController extends Controller
         $user_info = User::personalProfile(Auth::user()->user_id);
         $personal = PersonalProfile::where('pp_user_id', Auth::user()->user_id)->get()->toArray();
         $registration = RegistrationProfile::where('reg_user_id', Auth::user()->user_id)->get()->toArray();
-        return view('profile', compact('user_info', 'personal', 'registration'));
+        $feedbacks = Feedback::getClientFeedbacksById(Auth::user()->user_id);
+        return view('profile', compact('user_info', 'personal', 'registration', 'feedbacks'));
     }
     
     public function updateAccount(Request $request){
@@ -53,5 +55,9 @@ class PersonalProfileController extends Controller
         }
 
         PersonalProfile::where('pp_user_id' , Auth::user()->user_id)->update(array_filter($data));
+    }
+
+    public function getCurrentAddress(){
+        return PersonalProfile::where('pp_user_id', Auth::user()->user_id)->get()->toArray();
     }
 }

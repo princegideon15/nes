@@ -12,11 +12,11 @@ use Illuminate\Support\MessageBag;
 use App\Mail\ResetPasswordLink;
 use Illuminate\Support\Facades\Mail;
 use App\User;
+use App\Logs;
 use Auth;
 use Hash;
 use Cookie;
 use DB;
-// use Mail;
 use Carbon\Carbon;
 use Session;
 use Crypt;
@@ -60,34 +60,7 @@ class LoginController extends Controller
      * @var string
      */
     // protected $redirectTo = RouteServiceProvider::OTP;
-    // protected $redirectTo = '/otp';
-
-    private $ipaddress;
-
-    /**
-     * Get IP address of the user
-     *
-     * @return void
-     */
-    public function get_ip(){
-        
-        if (isset($_SERVER['HTTP_CLIENT_IP']))
-            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED']))
-            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_FORWARDED']))
-            $ipaddress = $_SERVER['HTTP_FORWARDED'];
-        else if(isset($_SERVER['REMOTE_ADDR']))
-            $ipaddress = $_SERVER['REMOTE_ADDR'];
-        else
-            $ipaddress = 'UNKNOWN'; 
-
-            return $ipaddress;
-    }   
+    // protected $redirectTo = '/otp'; 
 
     /**
      * Where to redirect users after login.
@@ -124,6 +97,13 @@ class LoginController extends Controller
     }
 
     public function doLogin(Request $req){
+
+        
+        $os = Browser::platformFamily() . ' ' . Browser::platFormVersion();
+        $browser = Browser::browserName();
+        $date = date("F j, Y, g:i a");
+        $ip = request()->ip();
+
         // get info of user by email
         $user_email = $req->email;
         $admin = 'nrcp.execom@gmail.com';
@@ -164,29 +144,15 @@ class LoginController extends Controller
         
         if ($validator->fails()) {
 
-            // $os = Browser::platformFamily() . ' ' . Browser::platFormVersion();
-            // $browser = Browser::browserName();
-            // $name = 'Unknown';
-            // $date = date("F j, Y, g:i a");
-            // $ip = $this->get_ip();
+            $logs = array('log_user_id' => 0, 
+                          'log_email' => $req->email, 
+                          'log_ip_address' => $ip,
+                          'log_user_agent' => $os,
+                          'log_browser' => $browser,
+                          'log_description' => 'Login attempt (Account Unregistered)', 
+                          'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
 
-            // $logs = array('log_user_id' => 0, 
-            //               'log_email' => $req->email, 
-            //               'log_ip_address' => $ip,
-            //               'log_user_agent' => $os,
-            //               'log_browser' => $browser,
-            //               'log_description' => 'Login attempt (Account Unregistered)', 
-            //               'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
-
-            // Logs::create($logs);
-
-            // $data = array('title' => 'Login Attempt', 'name' => $name, 'user_email' => $user_email, 'admin' => $admin, 'os' => $os, 'browser' => $browser, 'date' => $date, 'ip' => $ip);
-
-            // Mail::send('auth.loginmail', $data, function($message) use ($admin, $name, $user_email) {
-            //     $message->to($admin, $name)->subject
-            //         ('ExeCom IS Login Attempt Information');
-            //     $message->from('nrcp.execom@gmail.com','ExeCom IS Admin');
-            // });
+            Logs::create($logs);
 
             return redirect()->back()->withErrors($validator)->withInput();
         }else{
@@ -194,7 +160,19 @@ class LoginController extends Controller
             $role = User::checkRole($user_email);
 
             if($role == 0){
+    
+                $logs = array('log_user_id' => 0, 
+                              'log_email' => $req->email, 
+                              'log_ip_address' => $ip,
+                              'log_user_agent' => $os,
+                              'log_browser' => $browser,
+                              'log_description' => 'Login attempt (Non-admin account)', 
+                              'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+    
+                Logs::create($logs);
+
                 $errors = ['email' => 'The email you entered is not an admin account.'];
+
                 // validation not successful, send back to form 
                 return redirect()->back()->withErrors($errors)->withInput($req->only('email')); // redirect back to the login page, using ->withErrors($errors) you send the error created above
            
@@ -203,8 +181,19 @@ class LoginController extends Controller
                 $status = User::checkStatus($user_email);
                 
                 if($status == 0){
+        
+                    $logs = array('log_user_id' => 0, 
+                                  'log_email' => $req->email, 
+                                  'log_ip_address' => $ip,
+                                  'log_user_agent' => $os,
+                                  'log_browser' => $browser,
+                                  'log_description' => 'Login attempt (Account not activated)', 
+                                  'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+        
+                    Logs::create($logs);
 
                     $errors = ['email' => 'Your account is not activated.'];
+
                     // validation not successful, send back to form 
                     return redirect()->back()->withErrors($errors)->withInput($req->only('email')); // redirect back to the login page, using ->withErrors($errors) you send the error created above
               
@@ -240,6 +229,17 @@ class LoginController extends Controller
                     
                     // return redirect()->route('otp', ['email' => $crypt_rec]);
                     // echo 'ok';
+
+                    $logs = array('log_user_id' => Auth::user()->user_id, 
+                                'log_email' => $req->email, 
+                                'log_ip_address' => $ip,
+                                'log_user_agent' => $os,
+                                'log_browser' => $browser,
+                                'log_description' => 'Login successful', 
+                                'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+
+                    Logs::create($logs);
+
                     return redirect('/admin/dashboard');
                 } 
                 else {     
@@ -259,33 +259,20 @@ class LoginController extends Controller
                     
                     
                     // $this->incrementLoginAttempts($req);
-    
-                    // $os = Browser::platformFamily() . ' ' . Browser::platFormVersion();
-                    // $browser = Browser::browserName();
-                    // $name = Execom::where('email', $user_email)->value('name');
-                    // $date = date("F j, Y, g:i a");
-                    // $ip = $this->get_ip();
-    
-                    // $logs = array('log_user_id' => Auth::id(), 
-                    //               'log_email' => $req->email, 
-                    //               'log_ip_address' => $ip,
-                    //               'log_user_agent' => $os,
-                    //               'log_browser' => $browser,
-                    //               'log_description' => 'Login attempt', 
-                    //               'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
-    
-                    // Logs::create($logs);
-    
-                
-                    // $data = array('title' => 'Login Attempt', 'name' => $name, 'user_email' => $user_email, 'admin' => $admin, 'os' => $os, 'browser' => $browser, 'date' => $date, 'ip' => $ip);
-    
-                    // Mail::send('auth.loginmail', $data, function($message) use ($admin, $name) {
-                    //     $message->to($admin, $name)->subject
-                    //         ('ExeCom IS Login Attempt Information');
-                    //     $message->from('nrcp.execom@gmail.com','ExeCom IS Admin');
-                    // });
+                    // $name = AdminProfile::where('email', $req->email)->value('name');
+                    
+                    $logs = array('log_user_id' => 0, 
+                                'log_email' => $req->email, 
+                                'log_ip_address' => $ip,
+                                'log_user_agent' => $os,
+                                'log_browser' => $browser,
+                                'log_description' => 'Login attempt (Incorrect Password)', 
+                                'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+
+                    Logs::create($logs);
     
                     $errors = ['password' => 'The password you’ve entered is incorrect.'];
+                    
                     // validation not successful, send back to form 
                     return redirect()->back()->withErrors($errors)->withInput($req->only('email')); // redirect back to the login page, using ->withErrors($errors) you send the error created above
                 }
@@ -300,6 +287,22 @@ class LoginController extends Controller
      * @return void
      */
     public function logout(){
+
+        $os = Browser::platformFamily() . ' ' . Browser::platFormVersion();
+        $browser = Browser::browserName();
+        // $name = AdminProfile::where('email', $req->email)->value('name');
+        $date = date("F j, Y, g:i a");
+        $ip = \Request::ip();
+
+        $logs = array('log_user_id' => Auth::user()->user_id,
+                    'log_email' => Auth::user()->email, 
+                    'log_ip_address' => $ip,
+                    'log_user_agent' => $os,
+                    'log_browser' => $browser,
+                    'log_description' => 'Logout successful', 
+                    'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+
+        Logs::create($logs);
 
         Session::flush();
         Auth::logout();

@@ -47,10 +47,27 @@ class TrackingController extends Controller
         return Tracking::getLimitedTracking($id, $token);
     }
 
+    public function trackApplicationFromDashboard(Request $request){
+        $tracking = Tracking::getTrackingByToken13($request->track_app);
+        $track_num = $request->track_app;
+        $user_info = User::personalProfile(Auth::user()->user_id);
+
+        if(count($tracking) > 0){
+            return view('tracker_dashboard', compact('tracking', 'track_num', 'user_info'));
+        }else{
+
+            return redirect()->back()->withErrors(['msg' => 'No results found.']);
+        }
+
+    }
+
+    
+
     public function trackApplication(Request $request){
         $tracking = Tracking::getTrackingByToken13($request->track_app);
         $track_num = $request->track_app;
         $user_info = User::personalProfile(Auth::user()->user_id);
+
         return view('tracker_dashboard', compact('tracking', 'track_num', 'user_info'));
     }
 

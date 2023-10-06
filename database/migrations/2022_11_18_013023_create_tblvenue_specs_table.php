@@ -18,7 +18,7 @@ class CreateTblvenueSpecsTable extends Migration
             $table->integer('ven_stps_id');
             $table->string('ven_spec');
             $table->string('ven_spec_oth')->nullable();
-            $table->string('ven_address');
+            $table->string('ven_address')->nullable();
             $table->integer('ven_submit')->default('0');
             $table->string('ven_usr_id');
             $table->string('ven_form_token');

@@ -35,11 +35,18 @@ class EmailNotificationController extends Controller
        $admin_info = User::adminProfile(Auth::user()->user_id);
        $role = Auth::user()->user_grp_id;
        $notifications = EmailNotification::all();
-       return view('admin.email_notifications', compact(
-           'notifications',
-           'admin_info',
-           'role'));
 
+
+       if($role == 1){
+        return view('admin.email_notifications', compact(
+            'notifications',
+            'admin_info',
+            'role'));
+ 
+       }else{
+        abort(404);
+       }
+       
    }
 
    public function manageNotification($id){
@@ -47,38 +54,40 @@ class EmailNotificationController extends Controller
         $roles = (new LibraryController)->getRoles();
 
         $admin_info = User::adminProfile(Auth::user()->user_id);
-        $role = Auth::user()->user_grp_id;
         $notification = EmailNotification::where('id', $id)->get();
-        return view('admin.manage_email_notification', compact(
-            'notification',
-            'admin_info',
-            'role',
-            'roles'));
+
+        $role = Auth::user()->user_grp_id;
+        if($role == 1){
+            return view('admin.manage_email_notification', compact(
+                'notification',
+                'admin_info',
+                'role',
+                'roles'));
+        }else{
+            abort(404);
+        }
    }
 
    public function updateNotification(Request $request){
-
+        $post = array();
     
-		$post = array();
-
-
-		$user_groups = $request->input('enc_user_group');
+    
+        $user_groups = $request->input('enc_user_group');
         
         if(isset($user_groups)){
             $post['enc_user_group'] = implode(",", $user_groups);
         }
 
 
-		$post['enc_content'] = $request->input('enc_content', true);
-		$post['enc_subject'] = $request->input('enc_subject', true);
-		$post['enc_description'] = $request->input('enc_description', true);
-		$post['enc_cc'] = $request->input('enc_cc', true);
-		$post['enc_bcc'] = $request->input('enc_bcc', true);
+        $post['enc_content'] = $request->input('enc_content', true);
+        $post['enc_subject'] = $request->input('enc_subject', true);
+        $post['enc_description'] = $request->input('enc_description', true);
+        $post['enc_cc'] = $request->input('enc_cc', true);
+        $post['enc_bcc'] = $request->input('enc_bcc', true);
 
-		$id= $request->input('enc_process_id', true);
+        $id= $request->input('enc_process_id', true);
 
         EmailNotification::where('enc_process_id', $id)->update($post);
-
    }
       
 }

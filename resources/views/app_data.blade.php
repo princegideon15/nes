@@ -17,6 +17,7 @@
         :activities-data="{{ json_encode($activities) }}"
         :venues-data="{{ json_encode($venues) }}"
         :tracking-data="{{ json_encode($tracking) }}"
+        :participants-data="{{ json_encode($participants) }}"
     ></appdata-component> 
 </div>
 

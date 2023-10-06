@@ -26,6 +26,8 @@
         :postactrep-data="{{ json_encode($post_act_rep_att) }}"
         :members-data="{{ json_encode($members) }}"
         :experts-data="{{ json_encode($experts) }}"
+        :budget-data="{{ $budget }}"
+        :participants-data="{{ $participants }}"
     ></view-data-component> 
 </div>
 

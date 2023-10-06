@@ -39,10 +39,26 @@ class User extends Authenticatable
     ];
 
     static function getNrcpMemberAuth($email){
+        // return DB::connection('skms')->table('tblusers')
+        // ->select('usr_id')
+        // ->join('tblpersonal_profiles','usr_id','=','pp_user_id', 'inner')
+        // ->where('pp_email', $email)->first()->usr_id;
+        
         return DB::connection('skms')->table('tblusers')
-        ->select('usr_id')
-        ->join('tblpersonal_profiles','usr_id','=','pp_user_id', 'inner')
-        ->where('pp_email', $email)->first()->usr_id;
+        ->select('*')
+        ->join('tblpersonal_profiles','usr_id','=','pp_usr_id', 'inner')
+        ->where('pp_email', $email)
+        ->get()->toArray();
+    }
+
+    static function getNrcpMemberEmp($id){
+        return DB::connection('skms')->table('tblemployments')
+        ->select('*')
+        ->where('emp_usr_id', $id)
+        ->orderBy('emp_id', 'desc')
+        ->limit('1')
+        ->get()->toArray();
+        // SELECT * FROM `tblemployments` WHERE `emp_usr_id` = 2 order BY emp_id DESC limit 1
     }
 
     static function checkRole($email){

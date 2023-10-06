@@ -8,6 +8,5 @@
         :applications-data="{{ json_encode($applications) }}"
         :role-data="{{ $role }}"
     ></admin-applications-component> 
-
 @endsection
 

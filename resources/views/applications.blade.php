@@ -5,8 +5,9 @@
 
 <div>
     <applications-component 
-        :particulars-data="{{ json_encode($particulars) }}">
-    </applications-component>
+        :particulars-data="{{ json_encode($particulars) }}"
+        :applications-data="{{ json_encode($applications) }}"
+    ></applications-component> 
 </div>
 
 @endsection

@@ -77,6 +77,13 @@ class AdminProfilesSeeder extends Seeder
                 'user_id' => '10',
                 'created_at' => date("Y-m-d H:i:s")
             ],
+            [
+                'user_name' => 'BUDGET',
+                'user_privilege' => '',
+                'user_status' => 1,
+                'user_id' => '11',
+                'created_at' => date("Y-m-d H:i:s")
+            ],
         ]);
     }
 }

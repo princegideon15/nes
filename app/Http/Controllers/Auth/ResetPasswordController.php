@@ -13,8 +13,10 @@ use Illuminate\Support\MessageBag;
 use Auth;
 use DB;
 use Hash;
+use Browser;
 use Carbon\Carbon;
 use App\User;
+use App\Logs;
 use App\PersonalProfile;
 use App\Mail\ResetPasswordLink;
 
@@ -57,6 +59,11 @@ class ResetPasswordController extends Controller
     }
     
     public function verify(Request $req){
+
+        $os = Browser::platformFamily() . ' ' . Browser::platFormVersion();
+        $browser = Browser::browserName();
+        $date = date("F j, Y, g:i a");
+        $ip = request()->ip();
         
         $user_email = $req->email;
 
@@ -80,36 +87,84 @@ class ResetPasswordController extends Controller
 
         if ($validator->fails()) {
 
+            $logs = array('log_user_id' => 0, 
+                          'log_email' => $req->email, 
+                          'log_ip_address' => $ip,
+                          'log_user_agent' => $os,
+                          'log_browser' => $browser,
+                          'log_description' => 'Reset password attempt (Incorrect/Unregistered account)', 
+                          'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+
+            Logs::create($logs);
+
             return redirect()->back()->withErrors($validator)->withInput();
         }else{ 
 
             $user_profile = PersonalProfile::getUserProfileByEmail($user_email);
 
-            //select info by email
-            foreach($user_profile as $row){
-                $email_data['name'] =  $row->title_name . ' ' . $row->pp_first_name . ' ' . $row->pp_last_name;
+            if(count($user_profile) > 0){
+               
+                //select info by email
+                foreach($user_profile as $row){
+                    $email_data['name'] =  $row->title_name . ' ' . $row->pp_first_name . ' ' . $row->pp_last_name;
+                }
+                
+                //Create Password Reset Token
+                DB::table('password_resets')->insert([
+                    'email' => $user_email,
+                    'token' => Str::random(60),
+                    'created_at' => Carbon::now()
+                ]);
+
+                //Get the token just created above
+                $tokenData = DB::table('password_resets')
+                ->where('email', $user_email)->first()->token;
+
+                $email_data['token'] =  $tokenData;
+
+                Mail::to($user_email)->send(new ResetPasswordLink($email_data));
+
+                
+                $logs = array('log_user_id' => 0, 
+                'log_email' => $req->email, 
+                'log_ip_address' => $ip,
+                'log_user_agent' => $os,
+                'log_browser' => $browser,
+                'log_description' => 'Password reset link sent successful', 
+                'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+
+                Logs::create($logs);
+
+                return view('auth.verify', compact('tokenData'));
+                
+            }else{
+                
+                $logs = array('log_user_id' => 0, 
+                'log_email' => $req->email, 
+                'log_ip_address' => $ip,
+                'log_user_agent' => $os,
+                'log_browser' => $browser,
+                'log_description' => 'Reset password attempt (Incorrect/Unregistered account)', 
+                'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+
+                Logs::create($logs);
+
+                $errors = ['email' => 'The email you entered isn’t connected to an account.'];
+                // validation not successful, send back to form 
+                return redirect()->back()->withErrors($errors)->withInput($req->only('email')); // redirect back to the login page, using ->withErrors($errors) you send the error created above
             }
+
             
-            //Create Password Reset Token
-            DB::table('password_resets')->insert([
-                'email' => $user_email,
-                'token' => Str::random(60),
-                'created_at' => Carbon::now()
-            ]);
-
-            //Get the token just created above
-            $tokenData = DB::table('password_resets')
-            ->where('email', $user_email)->first()->token;
-
-            $email_data['token'] =  $tokenData;
-
-            Mail::to($user_email)->send(new ResetPasswordLink($email_data));
             
-            return view('auth.verify', compact('tokenData'));
         }
     }
     
     public function resend($token){
+
+        $os = Browser::platformFamily() . ' ' . Browser::platFormVersion();
+        $browser = Browser::browserName();
+        $date = date("F j, Y, g:i a");
+        $ip = request()->ip();
 
         // get email from token
          $user_email = DB::table('password_resets')
@@ -129,10 +184,20 @@ class ResetPasswordController extends Controller
         $email_data['token'] =  $tokenData;
 
         Mail::to($user_email)->send(new ResetPasswordLink($email_data));
+
+        
+        $logs = array('log_user_id' => 0, 
+        'log_email' => $user_email, 
+        'log_ip_address' => $ip,
+        'log_user_agent' => $os,
+        'log_browser' => $browser,
+        'log_description' => 'Resend reset password link successful', 
+        'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+
+        Logs::create($logs);
         
         return view('auth.verify', compact('tokenData'));
     }
-
 
     /**
      * Get the error messages for the defined validation rules.
@@ -144,17 +209,23 @@ class ResetPasswordController extends Controller
             'email.required' => 'Email is required.',
             'email.email' => 'The email needs to have a valid format.',
             'email.exists' => 'The email you entered isn’t connected to an account.',
-            
+
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 8 characters.',
 
-            'confirm-password.required' => 'Repeat password is required.',
-            'confirm-password.min' => 'Repeat password must be at least 8 characters.',
-            'confirm-password.same' => 'New passwords must match.'
+            'confirm-password.required' => 'Confirm Password is required.',
+            'confirm-password.min' => 'Confirm Password must be at least 8 characters.',
+            'confirm-password.same' => 'Password confirmation does not match.',
+            
         ];
     }
 
     public function confirm(Request $req){
+
+        $os = Browser::platformFamily() . ' ' . Browser::platFormVersion();
+        $browser = Browser::browserName();
+        $date = date("F j, Y, g:i a");
+        $ip = request()->ip();
          // get email from token
          $user_email = DB::table('password_resets')
          ->where('token', $req->token)->first()->email;
@@ -165,6 +236,17 @@ class ResetPasswordController extends Controller
         ], $this->messages());
 
         if ($validator->fails()) {
+
+            $logs = array('log_user_id' => 0, 
+            'log_email' => $user_email, 
+            'log_ip_address' => $ip,
+            'log_user_agent' => $os,
+            'log_browser' => $browser,
+            'log_description' => 'Reset password mismatch', 
+            'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+    
+            Logs::create($logs);
+            
             return redirect()->back()->withErrors($validator)->withInput();
         }else{ 
 
@@ -175,7 +257,17 @@ class ResetPasswordController extends Controller
 
             User::where('email', $user_email)->update($userData);
 
-            return redirect('/')->withSuccess('Reset Password Successfull! You can now log in.');
+            $logs = array('log_user_id' => 0, 
+            'log_email' => $user_email, 
+            'log_ip_address' => $ip,
+            'log_user_agent' => $os,
+            'log_browser' => $browser,
+            'log_description' => 'Reset Password successful', 
+            'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+    
+            Logs::create($logs);
+
+            return redirect('/')->withSuccess('Reset Password Successful. You can now log in.');
         }
 
     }

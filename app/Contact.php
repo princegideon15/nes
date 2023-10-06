@@ -10,7 +10,7 @@ class Contact extends Model
 {
     public $timestamps = true;
     protected $table = 'tblcontacts';
-    protected $fillable = ['con_ins','con_reg','con_prov','con_city','con_brgy','con_address','con_head_ins','con_focal_p','con_contact_num','con_contact_add','con_usr_id','con_submit','con_form_token'];
+    protected $fillable = ['con_ins','con_reg','con_prov','con_city','con_brgy', 'con_current', 'con_address','con_head_ins','con_focal_p','con_contact_num','con_contact_add','con_usr_id','con_submit','con_form_token'];
    
     public function getTableColumns($table) {
 

@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => 'faa23525abc90fe6c1c828a1bbb7ac0976cd2df3',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -26,6 +26,15 @@
             'install_path' => __DIR__ . '/../brick/math',
             'aliases' => array(),
             'reference' => 'ca57d18f028f84f777b2168cd1911b0dee2343ae',
+            'dev_requirement' => false,
+        ),
+        'composer/ca-bundle' => array(
+            'pretty_version' => '1.3.6',
+            'version' => '1.3.6.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./ca-bundle',
+            'aliases' => array(),
+            'reference' => '90d087e988ff194065333d16bc5cf649872d9cdb',
             'dev_requirement' => false,
         ),
         'cordoval/hamcrest-php' => array(
@@ -183,6 +192,15 @@
             'aliases' => array(),
             'reference' => '8c3d0a3f6af734494ad8f6fbbee0ba92422859f3',
             'dev_requirement' => true,
+        ),
+        'hisorange/browser-detect' => array(
+            'pretty_version' => '4.5.4',
+            'version' => '4.5.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../hisorange/browser-detect',
+            'aliases' => array(),
+            'reference' => '2a7c2b140209aa8477424614eb3aa6f7a7b9f429',
+            'dev_requirement' => false,
         ),
         'illuminate/auth' => array(
             'dev_requirement' => false,
@@ -358,6 +376,15 @@
                 0 => 'v7.30.6',
             ),
         ),
+        'jaybizzle/crawler-detect' => array(
+            'pretty_version' => 'v1.2.116',
+            'version' => '1.2.116.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../jaybizzle/crawler-detect',
+            'aliases' => array(),
+            'reference' => '97e9fe30219e60092e107651abb379a38b342921',
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -374,12 +401,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => 'faa23525abc90fe6c1c828a1bbb7ac0976cd2df3',
             'dev_requirement' => false,
         ),
         'laravel/tinker' => array(
@@ -427,6 +454,33 @@
             'reference' => 'ff6248ea87a9f116e78edd6002e39e5128a0d4dd',
             'dev_requirement' => false,
         ),
+        'league/pipeline' => array(
+            'pretty_version' => '1.0.0',
+            'version' => '1.0.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../league/pipeline',
+            'aliases' => array(),
+            'reference' => 'aa14b0e3133121f8be39e9a3b6ddd011fc5bb9a8',
+            'dev_requirement' => false,
+        ),
+        'matomo/device-detector' => array(
+            'pretty_version' => '6.1.4',
+            'version' => '6.1.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../matomo/device-detector',
+            'aliases' => array(),
+            'reference' => '74f6c4f6732b3ad6cdf25560746841d522969112',
+            'dev_requirement' => false,
+        ),
+        'mobiledetect/mobiledetectlib' => array(
+            'pretty_version' => '2.8.41',
+            'version' => '2.8.41.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mobiledetect/mobiledetectlib',
+            'aliases' => array(),
+            'reference' => 'fc9cccd4d3706d5a7537b562b59cc18f9e4c0cb1',
+            'dev_requirement' => false,
+        ),
         'mockery/mockery' => array(
             'pretty_version' => '1.3.6',
             'version' => '1.3.6.0',
@@ -443,6 +497,15 @@
             'install_path' => __DIR__ . '/../monolog/monolog',
             'aliases' => array(),
             'reference' => 'f259e2b15fb95494c83f52d3caad003bbf5ffaa1',
+            'dev_requirement' => false,
+        ),
+        'mustangostang/spyc' => array(
+            'pretty_version' => '0.6.3',
+            'version' => '0.6.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mustangostang/spyc',
+            'aliases' => array(),
+            'reference' => '4627c838b16550b666d15aeae1e5289dd5b77da0',
             'dev_requirement' => false,
         ),
         'myclabs/deep-copy' => array(
@@ -570,6 +633,12 @@
             'aliases' => array(),
             'reference' => '7d1ff0e8c6b35db78ff13e3e05517d7cbf7aa32e',
             'dev_requirement' => true,
+        ),
+        'piwik/device-detector' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '6.1.4',
+            ),
         ),
         'psr/container' => array(
             'pretty_version' => '1.1.1',
@@ -1101,6 +1170,15 @@
             'install_path' => __DIR__ . '/../tijsverkoyen/css-to-inline-styles',
             'aliases' => array(),
             'reference' => 'c42125b83a4fa63b187fdf29f9c93cb7733da30c',
+            'dev_requirement' => false,
+        ),
+        'ua-parser/uap-php' => array(
+            'pretty_version' => 'v3.9.14',
+            'version' => '3.9.14.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../ua-parser/uap-php',
+            'aliases' => array(),
+            'reference' => 'b796c5ea5df588e65aeb4e2c6cce3811dec4fed6',
             'dev_requirement' => false,
         ),
         'vlucas/phpdotenv' => array(

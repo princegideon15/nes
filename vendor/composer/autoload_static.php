@@ -28,6 +28,7 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '9cdd7b9056abc3081735233ba9dd9c7f' => __DIR__ . '/..' . '/facade/flare-client-php/src/helpers.php',
+        '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
         'b6ec61354e97f32c0ae683041c78392a' => __DIR__ . '/..' . '/scrivo/highlight.php/HighlightUtilities/functions.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
@@ -40,9 +41,17 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         array (
             'voku\\' => 5,
         ),
+        'h' => 
+        array (
+            'hisorange\\BrowserDetect\\' => 24,
+        ),
         'W' => 
         array (
             'Whoops\\' => 7,
+        ),
+        'U' => 
+        array (
+            'UAParser\\' => 9,
         ),
         'T' => 
         array (
@@ -108,11 +117,16 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         ),
         'L' => 
         array (
+            'League\\Pipeline\\' => 16,
             'League\\MimeTypeDetection\\' => 25,
             'League\\Flysystem\\' => 17,
             'League\\CommonMark\\' => 18,
             'Laravel\\Ui\\' => 11,
             'Laravel\\Tinker\\' => 15,
+        ),
+        'J' => 
+        array (
+            'Jaybizzle\\CrawlerDetect\\' => 24,
         ),
         'I' => 
         array (
@@ -144,11 +158,13 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Inflector\\' => 19,
             'Doctrine\\Common\\Lexer\\' => 22,
+            'DeviceDetector\\' => 15,
             'DeepCopy\\' => 9,
         ),
         'C' => 
         array (
             'Cron\\' => 5,
+            'Composer\\CaBundle\\' => 18,
             'Carbon\\' => 7,
         ),
         'B' => 
@@ -167,9 +183,17 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
         ),
+        'hisorange\\BrowserDetect\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hisorange/browser-detect/src',
+        ),
         'Whoops\\' => 
         array (
             0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
+        ),
+        'UAParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ua-parser/uap-php/src',
         ),
         'TijsVerkoyen\\CssToInlineStyles\\' => 
         array (
@@ -336,6 +360,10 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'League\\Pipeline\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/pipeline/src',
+        ),
         'League\\MimeTypeDetection\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
@@ -355,6 +383,10 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'Laravel\\Tinker\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/tinker/src',
+        ),
+        'Jaybizzle\\CrawlerDetect\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src',
         ),
         'Illuminate\\Foundation\\Auth\\' => 
         array (
@@ -420,6 +452,10 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         array (
             0 => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer',
         ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/device-detector',
+        ),
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
@@ -427,6 +463,10 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'Cron\\' => 
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
         'Carbon\\' => 
         array (
@@ -465,6 +505,13 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
                 0 => __DIR__ . '/..' . '/scrivo/highlight.php',
             ),
         ),
+        'D' => 
+        array (
+            'Detection' => 
+            array (
+                0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced',
+            ),
+        ),
     );
 
     public static $classMap = array (
@@ -481,12 +528,14 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'App\\EvaluationA' => __DIR__ . '/../..' . '/app/EvaluationA.php',
         'App\\EvaluationB' => __DIR__ . '/../..' . '/app/EvaluationB.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Experts' => __DIR__ . '/../..' . '/app/Experts.php',
         'App\\FinalizationA' => __DIR__ . '/../..' . '/app/FinalizationA.php',
         'App\\FinalizationB' => __DIR__ . '/../..' . '/app/FinalizationB.php',
         'App\\Http\\Controllers\\Admin\\ApplicationsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ApplicationsController.php',
         'App\\Http\\Controllers\\Admin\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Auth/LoginController.php',
         'App\\Http\\Controllers\\Admin\\EmailNotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/EmailNotificationController.php',
         'App\\Http\\Controllers\\Admin\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/HomeController.php',
+        'App\\Http\\Controllers\\Admin\\LogsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LogsController.php',
         'App\\Http\\Controllers\\Admin\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/UserController.php',
         'App\\Http\\Controllers\\ApplicationsController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApplicationsController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
@@ -496,8 +545,10 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\ExpertsController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExpertsController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\LibraryController' => __DIR__ . '/../..' . '/app/Http/Controllers/LibraryController.php',
+        'App\\Http\\Controllers\\PersonalProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/PersonalProfileController.php',
         'App\\Http\\Controllers\\PostActReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/PostActReportController.php',
         'App\\Http\\Controllers\\StpsController' => __DIR__ . '/../..' . '/app/Http/Controllers/StpsController.php',
         'App\\Http\\Controllers\\TrackingController' => __DIR__ . '/../..' . '/app/Http/Controllers/TrackingController.php',
@@ -511,7 +562,9 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Library' => __DIR__ . '/../..' . '/app/Library.php',
+        'App\\Logs' => __DIR__ . '/../..' . '/app/Logs.php',
         'App\\Mail\\ApplicationNotification' => __DIR__ . '/../..' . '/app/Mail/ApplicationNotification.php',
+        'App\\Mail\\ExpertsNotification' => __DIR__ . '/../..' . '/app/Mail/ExpertsNotification.php',
         'App\\Mail\\NewAccountNotification' => __DIR__ . '/../..' . '/app/Mail/NewAccountNotification.php',
         'App\\Mail\\ProcessNotification' => __DIR__ . '/../..' . '/app/Mail/ProcessNotification.php',
         'App\\Mail\\ResetPasswordLink' => __DIR__ . '/../..' . '/app/Mail/ResetPasswordLink.php',
@@ -635,6 +688,7 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
         'Carbon\\TranslatorImmutable' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorImmutable.php',
         'Carbon\\TranslatorStrongTypeInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorStrongTypeInterface.php',
+        'Composer\\CaBundle\\CaBundle' => __DIR__ . '/..' . '/composer/ca-bundle/src/CaBundle.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/CronExpression.php',
@@ -671,6 +725,44 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'DeepCopy\\TypeFilter\\Spl\\SplDoublyLinkedListFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/Spl/SplDoublyLinkedListFilter.php',
         'DeepCopy\\TypeFilter\\TypeFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/TypeFilter.php',
         'DeepCopy\\TypeMatcher\\TypeMatcher' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeMatcher/TypeMatcher.php',
+        'Detection\\MobileDetect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced/Detection/MobileDetect.php',
+        'DeviceDetector\\Cache\\CacheInterface' => __DIR__ . '/..' . '/matomo/device-detector/Cache/CacheInterface.php',
+        'DeviceDetector\\Cache\\DoctrineBridge' => __DIR__ . '/..' . '/matomo/device-detector/Cache/DoctrineBridge.php',
+        'DeviceDetector\\Cache\\LaravelCache' => __DIR__ . '/..' . '/matomo/device-detector/Cache/LaravelCache.php',
+        'DeviceDetector\\Cache\\PSR16Bridge' => __DIR__ . '/..' . '/matomo/device-detector/Cache/PSR16Bridge.php',
+        'DeviceDetector\\Cache\\PSR6Bridge' => __DIR__ . '/..' . '/matomo/device-detector/Cache/PSR6Bridge.php',
+        'DeviceDetector\\Cache\\StaticCache' => __DIR__ . '/..' . '/matomo/device-detector/Cache/StaticCache.php',
+        'DeviceDetector\\ClientHints' => __DIR__ . '/..' . '/matomo/device-detector/ClientHints.php',
+        'DeviceDetector\\DeviceDetector' => __DIR__ . '/..' . '/matomo/device-detector/DeviceDetector.php',
+        'DeviceDetector\\Parser\\AbstractBotParser' => __DIR__ . '/..' . '/matomo/device-detector/Parser/AbstractBotParser.php',
+        'DeviceDetector\\Parser\\AbstractParser' => __DIR__ . '/..' . '/matomo/device-detector/Parser/AbstractParser.php',
+        'DeviceDetector\\Parser\\Bot' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Bot.php',
+        'DeviceDetector\\Parser\\Client\\AbstractClientParser' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/AbstractClientParser.php',
+        'DeviceDetector\\Parser\\Client\\Browser' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/Browser.php',
+        'DeviceDetector\\Parser\\Client\\Browser\\Engine' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/Browser/Engine.php',
+        'DeviceDetector\\Parser\\Client\\Browser\\Engine\\Version' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/Browser/Engine/Version.php',
+        'DeviceDetector\\Parser\\Client\\FeedReader' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/FeedReader.php',
+        'DeviceDetector\\Parser\\Client\\Hints\\AppHints' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/Hints/AppHints.php',
+        'DeviceDetector\\Parser\\Client\\Hints\\BrowserHints' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/Hints/BrowserHints.php',
+        'DeviceDetector\\Parser\\Client\\Library' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/Library.php',
+        'DeviceDetector\\Parser\\Client\\MediaPlayer' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/MediaPlayer.php',
+        'DeviceDetector\\Parser\\Client\\MobileApp' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/MobileApp.php',
+        'DeviceDetector\\Parser\\Client\\PIM' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Client/PIM.php',
+        'DeviceDetector\\Parser\\Device\\AbstractDeviceParser' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Device/AbstractDeviceParser.php',
+        'DeviceDetector\\Parser\\Device\\Camera' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Device/Camera.php',
+        'DeviceDetector\\Parser\\Device\\CarBrowser' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Device/CarBrowser.php',
+        'DeviceDetector\\Parser\\Device\\Console' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Device/Console.php',
+        'DeviceDetector\\Parser\\Device\\HbbTv' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Device/HbbTv.php',
+        'DeviceDetector\\Parser\\Device\\Mobile' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Device/Mobile.php',
+        'DeviceDetector\\Parser\\Device\\Notebook' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Device/Notebook.php',
+        'DeviceDetector\\Parser\\Device\\PortableMediaPlayer' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Device/PortableMediaPlayer.php',
+        'DeviceDetector\\Parser\\Device\\ShellTv' => __DIR__ . '/..' . '/matomo/device-detector/Parser/Device/ShellTv.php',
+        'DeviceDetector\\Parser\\OperatingSystem' => __DIR__ . '/..' . '/matomo/device-detector/Parser/OperatingSystem.php',
+        'DeviceDetector\\Parser\\VendorFragment' => __DIR__ . '/..' . '/matomo/device-detector/Parser/VendorFragment.php',
+        'DeviceDetector\\Yaml\\ParserInterface' => __DIR__ . '/..' . '/matomo/device-detector/Yaml/ParserInterface.php',
+        'DeviceDetector\\Yaml\\Pecl' => __DIR__ . '/..' . '/matomo/device-detector/Yaml/Pecl.php',
+        'DeviceDetector\\Yaml\\Spyc' => __DIR__ . '/..' . '/matomo/device-detector/Yaml/Spyc.php',
+        'DeviceDetector\\Yaml\\Symfony' => __DIR__ . '/..' . '/matomo/device-detector/Yaml/Symfony.php',
         'DivisionChairsSeeder' => __DIR__ . '/../..' . '/database/seeds/DivisionChairsSeeder.php',
         'Doctrine\\Common\\Lexer\\AbstractLexer' => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer/AbstractLexer.php',
         'Doctrine\\Inflector\\CachedWordInflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/CachedWordInflector.php',
@@ -2501,6 +2593,11 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'Illuminate\\View\\ViewFinderInterface' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
         'Illuminate\\View\\ViewName' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewName.php',
         'Illuminate\\View\\ViewServiceProvider' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
+        'Jaybizzle\\CrawlerDetect\\CrawlerDetect' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/CrawlerDetect.php',
+        'Jaybizzle\\CrawlerDetect\\Fixtures\\AbstractProvider' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/AbstractProvider.php',
+        'Jaybizzle\\CrawlerDetect\\Fixtures\\Crawlers' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/Crawlers.php',
+        'Jaybizzle\\CrawlerDetect\\Fixtures\\Exclusions' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/Exclusions.php',
+        'Jaybizzle\\CrawlerDetect\\Fixtures\\Headers' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/Headers.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'Laravel\\Tinker\\ClassAliasAutoloader' => __DIR__ . '/..' . '/laravel/tinker/src/ClassAliasAutoloader.php',
         'Laravel\\Tinker\\Console\\TinkerCommand' => __DIR__ . '/..' . '/laravel/tinker/src/Console/TinkerCommand.php',
@@ -2783,7 +2880,16 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'League\\MimeTypeDetection\\GeneratedExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/GeneratedExtensionToMimeTypeMap.php',
         'League\\MimeTypeDetection\\MimeTypeDetector' => __DIR__ . '/..' . '/league/mime-type-detection/src/MimeTypeDetector.php',
         'League\\MimeTypeDetection\\OverridingExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/OverridingExtensionToMimeTypeMap.php',
+        'League\\Pipeline\\FingersCrossedProcessor' => __DIR__ . '/..' . '/league/pipeline/src/FingersCrossedProcessor.php',
+        'League\\Pipeline\\InterruptibleProcessor' => __DIR__ . '/..' . '/league/pipeline/src/InterruptibleProcessor.php',
+        'League\\Pipeline\\Pipeline' => __DIR__ . '/..' . '/league/pipeline/src/Pipeline.php',
+        'League\\Pipeline\\PipelineBuilder' => __DIR__ . '/..' . '/league/pipeline/src/PipelineBuilder.php',
+        'League\\Pipeline\\PipelineBuilderInterface' => __DIR__ . '/..' . '/league/pipeline/src/PipelineBuilderInterface.php',
+        'League\\Pipeline\\PipelineInterface' => __DIR__ . '/..' . '/league/pipeline/src/PipelineInterface.php',
+        'League\\Pipeline\\ProcessorInterface' => __DIR__ . '/..' . '/league/pipeline/src/ProcessorInterface.php',
+        'League\\Pipeline\\StageInterface' => __DIR__ . '/..' . '/league/pipeline/src/StageInterface.php',
         'ManagementsSeeder' => __DIR__ . '/../..' . '/database/seeds/ManagementsSeeder.php',
+        'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\Legacy\\TestListenerForV5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/Legacy/TestListenerForV5.php',
         'Mockery\\Adapter\\Phpunit\\Legacy\\TestListenerForV6' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/Legacy/TestListenerForV6.php',
@@ -5041,6 +5147,35 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Processor' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Processor.php',
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
         'TitlesSeeder' => __DIR__ . '/../..' . '/database/seeds/TitlesSeeder.php',
+        'UAParser\\AbstractParser' => __DIR__ . '/..' . '/ua-parser/uap-php/src/AbstractParser.php',
+        'UAParser\\Command\\ConvertCommand' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Command/ConvertCommand.php',
+        'UAParser\\Command\\FetchCommand' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Command/FetchCommand.php',
+        'UAParser\\Command\\LogfileCommand' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Command/LogfileCommand.php',
+        'UAParser\\Command\\ParserCommand' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Command/ParserCommand.php',
+        'UAParser\\Command\\UpdateCommand' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Command/UpdateCommand.php',
+        'UAParser\\DeviceParser' => __DIR__ . '/..' . '/ua-parser/uap-php/src/DeviceParser.php',
+        'UAParser\\Exception\\DomainException' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Exception/DomainException.php',
+        'UAParser\\Exception\\FetcherException' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Exception/FetcherException.php',
+        'UAParser\\Exception\\FileNotFoundException' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Exception/FileNotFoundException.php',
+        'UAParser\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Exception/InvalidArgumentException.php',
+        'UAParser\\Exception\\ReaderException' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Exception/ReaderException.php',
+        'UAParser\\OperatingSystemParser' => __DIR__ . '/..' . '/ua-parser/uap-php/src/OperatingSystemParser.php',
+        'UAParser\\Parser' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Parser.php',
+        'UAParser\\ParserFactoryMethods' => __DIR__ . '/..' . '/ua-parser/uap-php/src/ParserFactoryMethods.php',
+        'UAParser\\Result\\AbstractClient' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Result/AbstractClient.php',
+        'UAParser\\Result\\AbstractSoftware' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Result/AbstractSoftware.php',
+        'UAParser\\Result\\AbstractVersionedSoftware' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Result/AbstractVersionedSoftware.php',
+        'UAParser\\Result\\Client' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Result/Client.php',
+        'UAParser\\Result\\Device' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Result/Device.php',
+        'UAParser\\Result\\OperatingSystem' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Result/OperatingSystem.php',
+        'UAParser\\Result\\UserAgent' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Result/UserAgent.php',
+        'UAParser\\UserAgentParser' => __DIR__ . '/..' . '/ua-parser/uap-php/src/UserAgentParser.php',
+        'UAParser\\Util\\CodeGenerator' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Util/CodeGenerator.php',
+        'UAParser\\Util\\Converter' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Util/Converter.php',
+        'UAParser\\Util\\Fetcher' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Util/Fetcher.php',
+        'UAParser\\Util\\Logfile\\AbstractReader' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Util/Logfile/AbstractReader.php',
+        'UAParser\\Util\\Logfile\\ApacheCommonLogFormatReader' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Util/Logfile/ApacheCommonLogFormatReader.php',
+        'UAParser\\Util\\Logfile\\ReaderInterface' => __DIR__ . '/..' . '/ua-parser/uap-php/src/Util/Logfile/ReaderInterface.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'UserGroupsSeeder' => __DIR__ . '/../..' . '/database/seeds/UserGroupsSeeder.php',
         'UserTypesSeeder' => __DIR__ . '/../..' . '/database/seeds/UserTypesSeeder.php',
@@ -5068,6 +5203,24 @@ class ComposerStaticInite9762891b22410b3bf3d82b738463419
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+        'hisorange\\BrowserDetect\\Contracts\\ParserInterface' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Contracts/ParserInterface.php',
+        'hisorange\\BrowserDetect\\Contracts\\PayloadInterface' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Contracts/PayloadInterface.php',
+        'hisorange\\BrowserDetect\\Contracts\\ResultInterface' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Contracts/ResultInterface.php',
+        'hisorange\\BrowserDetect\\Contracts\\StageInterface' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Contracts/StageInterface.php',
+        'hisorange\\BrowserDetect\\Exceptions\\BadMethodCallException' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Exceptions/BadMethodCallException.php',
+        'hisorange\\BrowserDetect\\Exceptions\\Exception' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Exceptions/Exception.php',
+        'hisorange\\BrowserDetect\\Exceptions\\InvalidArgumentException' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Exceptions/InvalidArgumentException.php',
+        'hisorange\\BrowserDetect\\Exceptions\\RuntimeException' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Exceptions/RuntimeException.php',
+        'hisorange\\BrowserDetect\\Facade' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Facade.php',
+        'hisorange\\BrowserDetect\\Parser' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Parser.php',
+        'hisorange\\BrowserDetect\\Payload' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Payload.php',
+        'hisorange\\BrowserDetect\\Result' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Result.php',
+        'hisorange\\BrowserDetect\\ServiceProvider' => __DIR__ . '/..' . '/hisorange/browser-detect/src/ServiceProvider.php',
+        'hisorange\\BrowserDetect\\Stages\\BrowserDetect' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Stages/BrowserDetect.php',
+        'hisorange\\BrowserDetect\\Stages\\CrawlerDetect' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Stages/CrawlerDetect.php',
+        'hisorange\\BrowserDetect\\Stages\\DeviceDetector' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Stages/DeviceDetector.php',
+        'hisorange\\BrowserDetect\\Stages\\MobileDetect' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Stages/MobileDetect.php',
+        'hisorange\\BrowserDetect\\Stages\\UAParser' => __DIR__ . '/..' . '/hisorange/browser-detect/src/Stages/UAParser.php',
         'voku\\helper\\ASCII' => __DIR__ . '/..' . '/voku/portable-ascii/src/voku/helper/ASCII.php',
     );
 

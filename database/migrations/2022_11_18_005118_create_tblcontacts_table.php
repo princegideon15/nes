@@ -20,6 +20,7 @@ class CreateTblcontactsTable extends Migration
             $table->string('con_prov')->nullable();
             $table->string('con_city')->nullable();
             $table->string('con_brgy')->nullable();
+            $table->integer('con_current')->default(0);
             $table->string('con_address')->nullable();
             $table->string('con_head_ins')->nullable();
             $table->string('con_focal_p')->nullable();

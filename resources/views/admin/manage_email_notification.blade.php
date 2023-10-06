@@ -10,23 +10,37 @@
 
 <div class="p-4 sm:ml-64 mt-14">
 
-    <nav class="flex mb-5 px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+    <nav class="flex mb-5 px-5 py-3 text-gray-700 border border-gray-100 rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700"
         aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
-                <a href="{{ url('/admin/email_notifications') }}"
+                <a href="{{ url('/admin/dashboard') }}"
                     class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
                     <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
                         aria-hidden="true">
-                        <path
-                            d="M19.5 22.5a3 3 0 003-3v-8.174l-6.879 4.022 3.485 1.876a.75.75 0 01-.712 1.321l-5.683-3.06a1.5 1.5 0 00-1.422 0l-5.683 3.06a.75.75 0 01-.712-1.32l3.485-1.877L1.5 11.326V19.5a3 3 0 003 3h15z">
+                        <path clip-rule="evenodd" fill-rule="evenodd"
+                            d="M2.25 13.5a8.25 8.25 0 018.25-8.25.75.75 0 01.75.75v6.75H18a.75.75 0 01.75.75 8.25 8.25 0 01-16.5 0z">
                         </path>
-                        <path
-                            d="M1.5 9.589v-.745a3 3 0 011.578-2.641l7.5-4.039a3 3 0 012.844 0l7.5 4.039A3 3 0 0122.5 8.844v.745l-8.426 4.926-.652-.35a3 3 0 00-2.844 0l-.652.35L1.5 9.59z">
+                        <path clip-rule="evenodd" fill-rule="evenodd"
+                            d="M12.75 3a.75.75 0 01.75-.75 8.25 8.25 0 018.25 8.25.75.75 0 01-.75.75h-7.5a.75.75 0 01-.75-.75V3z">
                         </path>
                     </svg>
-                    Email Notifications
+                    Dashboard
                 </a>
+            </li>
+            <li aria-current="page" class="inline-flex items-center">
+                <div class="flex items-center">
+                    <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <a href="{{ url('/admin/email_notifications') }}"
+                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                        Email Notifications
+                    </a>
+                </div>
             </li>
             <li aria-current="page" class="inline-flex items-center">
                 <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
@@ -74,7 +88,8 @@
                 </div>
                 <div class="mb-6">
                     <label for="enc_description"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notification trigger</label>
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notification
+                        trigger</label>
 
                     <input type="text" name="enc_description"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -102,7 +117,8 @@
                 <div class="mb-6">
                     <label for="enc_bcc" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User
                         group</label>
-                    <p class="text-sm mb-2 text-gray-900 dark:text-white">Following user groups will also receive this email
+                    <p class="text-sm mb-2 text-gray-900 dark:text-white">Following user groups will also receive this
+                        email
                         notification</p>
                     <ul
                         class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
@@ -124,34 +140,23 @@
                     </ul>
 
                 </div>
-                <button type="button" onclick="updateEmailNotif(<?php echo $row->enc_process_id; ?>)"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Apply
-                    Changes</button>
             </form>
         </div>
 
-        <div>
+        <div class="">
             <label for="enc_content" class="text-sm font-medium text-gray-900 dark:text-white">Email content</label>
-            <textarea id="enc_content" name="enc_content"><?php echo $row->enc_content;?></textarea>
+            <textarea id="enc_content" name="enc_content" class="pt-2"><?php echo $row->enc_content;?></textarea>
+
+
+
+            <div class="text-right mt-6">
+                <button type="button" onclick="updateEmailNotif(<?php echo $row->enc_process_id; ?>)"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Apply
+                    Changes
+                </button>
+            </div>
         </div>
         @endforeach
-    </div>
-    <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
-    </div>
-    <div class="grid grid-cols-2 gap-4">
-        <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
     </div>
 
 </div>

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Auth;
 use App\Mail\ApplicationNotification;
+use App\Mail\ProcessNotification;
 use Illuminate\Support\Facades\Mail;
 
 use App\Contact;
@@ -32,6 +33,7 @@ use App\OtherCounterpart;
 use App\TotalBudget;
 use App\User;
 use App\EmailNotification;
+use App\AdminProfile;
 
 class ApplicationsController extends Controller
 {
@@ -57,7 +59,8 @@ class ApplicationsController extends Controller
         $active = 'bg-gray-900';
         $particulars = Particulars::all();
         $user_info = User::personalProfile(Auth::user()->user_id);
-        return view('applications', compact('active', 'flag', 'particulars', 'user_info'));
+        $applications = Application::getData(Auth::user()->user_id);
+        return view('applications', compact('active', 'flag', 'particulars', 'user_info', 'applications'));
     }
 
     /**
@@ -523,6 +526,14 @@ class ApplicationsController extends Controller
         Participant::where($data)->delete();
     }
 
+    static function deleteAllParticipants($stps_id, $usr_id){
+
+        $data['prt_stps_id'] = $stps_id;
+        $data['prt_usr_id'] = $usr_id;
+
+        Participant::where($data)->delete();
+    }
+
     /**
      * Form 6 (retreive, save, submit)
      *
@@ -710,8 +721,9 @@ class ApplicationsController extends Controller
         Tracking::Create($tracking)->save();
     }
     
-    static function submitStep6(Request $request){
+    public function submitStep6(Request $request){
 
+        
         $u_id = Auth::user()->user_id;
         $f1 = $request->file('att_lib');
         $f2 = $request->file('att_justification');
@@ -770,13 +782,11 @@ class ApplicationsController extends Controller
             $f3->storePubliclyAs('/public/attachments', $data['att_req_letter']);
         }
 
+        
         $data['att_stps_id'] = Contact::where('con_usr_id', $u_id)->orderBy('id', 'desc')->first(['id'])->id;
         $data['att_usr_id'] = $u_id;
         $data['att_submit'] = 1;    
         $data['att_form_token'] = Contact::where('con_usr_id', $u_id)->orderBy('id', 'desc')->first(['con_form_token'])->con_form_token;
-    
-    
-        
 
         Attachment::updateOrCreate($id, $data);
 
@@ -959,8 +969,10 @@ class ApplicationsController extends Controller
         }
         
         $mail->send(new ApplicationNotification($email_data));
+         
+        // send email to next processor/applicant
+         $this->sendEmailNotification(99, 4, $data['att_stps_id'], $data['att_form_token'], $u_id);
 
-    
         // update application status
 
 		$stat['app_stps_id'] = $id['att_stps_id'];
@@ -973,6 +985,158 @@ class ApplicationsController extends Controller
 		$stat_id['app_form_token'] = $data['att_form_token'];
 
         Status::updateOrCreate($stat_id, $stat);
+    }
+
+    public function hinayupak(){
+        return 'test';
+    }
+    public function sendEmailNotification($proc_id, $next_proc, $stps, $token, $uid){
+
+        $email_notif = EmailNotification::where('enc_process_id', $proc_id)->get();
+
+		// add cc/bcc
+		foreach($email_notif as $row){
+			$email_subject = $row->enc_subject;
+			$email_contents = $row->enc_content;
+
+            if(isset($row->enc_cc) && $row->enc_cc != ''){
+                if( strpos($row->enc_cc, ',') !== false ) {
+                    $email_cc = explode(',', preg_replace('/\s+/','',$row->enc_cc));
+                }else{
+                    $email_cc = array();
+                    array_push($email_cc, preg_replace('/\s+/','',$row->enc_cc));
+                }
+            }
+
+            if(isset($row->enc_bcc) && $row->enc_bcc != ''){
+                if( strpos($row->enc_bcc, ',') !== false ) {
+                    $email_bcc = explode(',', preg_replace('/\s+/','',$row->enc_bcc));
+                }else{
+                    $email_bcc = array();
+                    array_push($email_bcc, preg_replace('/\s+/','',$row->enc_bcc));
+                }
+            }
+
+            
+            if(isset($row->enc_user_group) && $row->enc_user_group != ''){
+                if( strpos($row->enc_user_group, ',') !== false ) {
+                    $email_user_group = explode(',', preg_replace('/\s+/','',$row->enc_user_group));
+                    // add exisiting email as cc
+                    if(count($email_user_group) > 0){
+                        $user_group_emails = array();
+                        foreach($email_user_group as $grp){
+                            // $username = $this->Email_model->get_user_group_emails($grp);
+                            $username = User::where('user_grp_id', $grp)->first(['email'])->email;
+                            array_push($user_group_emails, $username);
+                        }
+                    }
+                }else{
+                    $email_user_group = array();
+                    array_push($email_user_group, $row->enc_user_group);
+    
+                    // add exisiting email as cc
+                    if(count($email_user_group) > 0){
+                        $user_group_emails = array();
+                        foreach($email_user_group as $grp){
+                            // $username = $this->Email_model->get_user_group_emails($grp);
+                            $username = User::where('user_grp_id', $grp)->first(['email'])->email;
+                            array_push($user_group_emails, $username);
+                        }
+                    }
+                }
+            }
+
+		}
+
+        $processor = AdminProfile::select('user_name')->where('user_id', $next_proc)->first(['user_name'])->user_name;
+        $tracking_num =  substr($token, 0, 12);
+        
+        $requested_activity = Activity::where([
+                                    'act_stps_id' => $stps,
+                                    'act_form_token' => $token,
+                                    'act_usr_id' => $uid])
+                                    ->first(['act_req_id'])->act_req_id;
+
+        $activities = (new LibraryController)->getActType();
+
+        $req_act_arr = explode(', ', $requested_activity);
+         
+        $acts_arr = array();
+            
+        foreach($req_act_arr as $value){
+            foreach($activities as $row){
+                if($value == $row->act_id){
+                        array_push($acts_arr, $row->act_name);
+                }
+            }
+        }
+
+        $activity = implode(', ',$acts_arr);
+
+        $date_start = Activity::where([
+            'act_stps_id' => $stps,
+            'act_form_token' => $token,
+            'act_usr_id' => $uid])
+            ->first(['act_start'])->act_start;
+
+        $date_end = Activity::where([
+            'act_stps_id' => $stps,
+            'act_form_token' => $token,
+            'act_usr_id' => $uid])
+            ->first(['act_end'])->act_end;
+
+        
+        $new_start = \Carbon\Carbon::createFromFormat('Y-m-d', $date_start)
+                    ->format('d M Y');
+        $new_end = \Carbon\Carbon::createFromFormat('Y-m-d', $date_end)
+                    ->format('d M Y');
+        $date = $new_start . ' - ' . $new_end;
+             
+        $venue = Venue::where([
+            'ven_stps_id' => $stps,
+            'ven_form_token' => $token,
+            'ven_usr_id' => $uid])
+            ->first(['ven_address'])->ven_address;
+
+            
+        $focal = Contact::where([
+            'id' => $stps,
+            'con_form_token' => $token,
+            'con_usr_id' => $uid])
+            ->first(['con_focal_p'])->con_focal_p;
+       
+        $emailBody = str_replace('[NAME]', $processor, $email_contents);
+		$emailBody = str_replace('[TRACKING_NUM]', $tracking_num, $emailBody);
+		$emailBody = str_replace('[ACTIVITY]', $activity, $emailBody);
+		$emailBody = str_replace('[DATE]', $date, $emailBody);
+		$emailBody = str_replace('[VENUE]', $venue, $emailBody);
+		$emailBody = str_replace('[FOCAL_PER]', $focal, $emailBody);
+
+        $email_data['content'] = $emailBody;
+        $email_data['subject'] = $email_subject;
+
+        if(isset($user_group_emails)){
+
+            if(isset($email_bcc)){
+                $email_bcc = array_merge($email_bcc,$user_group_emails);
+            }else{
+                $email_bcc = $user_group_emails;
+            }
+        }
+        
+        $next_processor = User::where('user_grp_id', $next_proc)->first(['email'])->email;
+
+        $mail = Mail::to($next_processor);
+
+        if(isset($email_cc)){
+            $mail->cc($email_cc);
+        }
+
+        if(isset($email_bcc)){
+            $mail->bcc($email_bcc);
+        }
+        
+        $mail->send(new ProcessNotification($email_data));
     }
 
     // TESTS
@@ -1020,7 +1184,7 @@ class ApplicationsController extends Controller
             //     })
             // })
     
-exit;
+
 
         $email_notif = EmailNotification::where('enc_process_id', 0)->get();
 
@@ -1078,6 +1242,9 @@ exit;
         return Participant::where('prt_stps_id', $value)->get()->count();
     }
 
+    
+
+
 
 
     /**
@@ -1118,6 +1285,7 @@ exit;
         $venue = Venue::where('ven_usr_id', $u_id)->where('ven_form_token', $token)->get();
         $participant = count(Participant::where('prt_usr_id', $u_id)->where('prt_form_token', $token)->get());
         $attachment = Attachment::where('att_usr_id', $u_id)->where('att_form_token', $token)->get();
+        $participants = Participant::where('prt_usr_id', $u_id)->where('prt_form_token', $token)->get();
 
         $regions = (new LibraryController)->getRegions();
         $provinces = Application::getProvinces();
@@ -1142,11 +1310,13 @@ exit;
                                         'activities',
                                         'venues',
                                         'tracking',
-                                        'user_info'
+                                        'user_info',
+                                        'participants'
                                         ));
 
     }
 
+   
     /**
      * Show the form for editing the specified resource.
      *

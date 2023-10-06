@@ -152,7 +152,7 @@ class ApplicationsController extends Controller
         $this->sendEmailNotification(2, 4, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
 
     }
-//todo if no cc or bcc
+    
     public function processStep2B(Request $request){
         // save attachments
         $f1 = $request->file('eva_draft');
@@ -230,8 +230,7 @@ class ApplicationsController extends Controller
         if($request->app_cat == 2){
             $status = '3B';
         }else{
-            $budget = TotalBudget::where(['bud_usr_id' => $request->app_usr_id, 'bud_stps_id' => $request->app_stps_id, 'bud_form_token' => $request->app_form_token,])->first(['bud_total_nrcp'])->bud_total_nrcp;
-            $status = ($budget > 350000) ? 3 : 6;
+            $status = 3;
         }
         
         // update application status
@@ -261,13 +260,7 @@ class ApplicationsController extends Controller
             // send email to next processor/applicant
             $this->sendEmailNotification(3, 10, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
         }else{
-            if($status == 3){
-                // send email to next processor/applicant
-                $this->sendEmailNotification(3, 7, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
-            }else{
-                // send email to next processor/applicant
-                $this->sendEmailNotification(3, 10, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
-            }
+            $this->sendEmailNotification(5, 11, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
         }
     }
 
@@ -405,13 +398,11 @@ class ApplicationsController extends Controller
 
         $description = 'Endorsed by RIDD-IDS';
 
-        $budget = TotalBudget::where(['bud_usr_id' => $request->app_usr_id, 'bud_stps_id' => $request->app_stps_id, 'bud_form_token' => $request->app_form_token,])->first(['bud_total_nrcp'])->bud_total_nrcp;
-        $status = ($budget > 350000) ? 3 : 6;
        
         // update application status
         $data = [
             'app_remarks' => $request->app_remarks,
-            'app_status' => $status
+            'app_status' => '3'
         ];
 
         Status::where([
@@ -424,20 +415,16 @@ class ApplicationsController extends Controller
         $tracking = [
             'description' => $description,
             'form_token' => $request->app_form_token,
-            'status' => $status,
+            'status' => '3',
             'usr_id' => Auth::user()->user_id,
             'remarks' => $request->app_remarks
         ];
 
         Tracking::Create($tracking)->save();
 
-        if($status == 3){
-            // send email to next processor/applicant
-            $this->sendEmailNotification(4, 7, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
-        }else{
-            // send email to next processor/applicant
-            $this->sendEmailNotification(4, 10, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
-        }
+        
+        $this->sendEmailNotification(5, 11, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
+       
     }
 
     public function processStep4C_add_experts(Request $request){
@@ -561,12 +548,15 @@ class ApplicationsController extends Controller
 
     public function processStep5(Request $request){
 
-        $description = ($request->app_status == 1) ? 'Approved by STSP Committee' : 'Disapproved by STSP Committee';
+        $description = $request->app_status;
+
+        $budget = TotalBudget::where(['bud_usr_id' => $request->app_usr_id, 'bud_stps_id' => $request->app_stps_id, 'bud_form_token' => $request->app_form_token,])->first(['bud_total_nrcp'])->bud_total_nrcp;
+        $status = ($budget > 350000) ? 4 : 7; //4 above limit //7 below limit
 
         // update application status
         $data = [
             'app_remarks' => $request->app_remarks,
-            'app_status' => 4
+            'app_status' => $status
         ];
 
         Status::where([
@@ -579,93 +569,25 @@ class ApplicationsController extends Controller
         $tracking = [
             'description' => $description,
             'form_token' => $request->app_form_token,
-            'status' => 4,
+            'status' => $status,
             'usr_id' => Auth::user()->user_id,
             'remarks' => $request->app_remarks
         ];
 
         Tracking::Create($tracking)->save();
 
-        // send email to next processor/applicant
-        $this->sendEmailNotification(5, 8, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
+        if($status == 4){
+            // send email to next processor/applicant
+            $this->sendEmailNotification(5, 7, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
+        }else{
+            // send email to next processor/applicant
+            $this->sendEmailNotification(5, 10, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
+        }
     }
-    
-    // public function processStep4Bx(Request $request){
-
-    //     $description = 'Submitted Recommended Expert/s';
-
-    //     // update application status
-    //     $data = [
-    //         'app_remarks' => $request->app_remarks,
-    //         'app_status' => '4B'
-    //     ];
-
-    //     Status::where([
-    //         'app_stps_id' => $request->app_stps_id,
-    //         'app_form_token' => $request->app_form_token,
-    //         'app_usr_id' => $request->app_usr_id,
-    //     ])->update(array_filter($data));
-
-    //     // save tracking status
-    //     $tracking = [
-    //         'description' => $description,
-    //         'form_token' => $request->app_form_token,
-    //         'status' => '4B',
-    //         'usr_id' => Auth::user()->user_id,
-    //         'remarks' => $request->app_remarks
-    //     ];
-
-    //     Tracking::Create($tracking)->save();
-
-    //     // save request to neep database
-    //     // todo get info institution name and address
-    //     $file = $request->file('neep_req_letter');
-    //     $req_letter = date('ymhis') . '_' . $file->getClientOriginalName();
-    //     Storage::disk('neep')->put($req_letter, $req_letter);
-
-    //     $contact = Contact::where(['con_form_token' => $request->app_form_token, 'con_usr_id' => $request->app_usr_id])->get();
-    //     $neep = array();
-
-    //     foreach($contact as $row){
-    //         $neep['neep_req_inst_name'] = $row->con_ins;
-    //         $neep['neep_req_inst_region'] = $row->con_reg;
-    //         $neep['neep_req_inst_province'] = $row->con_prov;
-    //         $neep['neep_req_inst_city'] = $row->con_city;
-    //         $neep['neep_req_inst_brgy'] = $row->con_brgy;
-    //         $neep['neep_req_inst_street'] = $row->con_address;
-    //     }
-
-    //     $neep['neep_date_of_engagement'] = Activity::where(['act_form_token' => $request->app_form_token, 'act_usr_id' => $request->app_usr_id])->first(['act_start'])->act_start;
-
-    //     $neep['neep_req_needed'] = $request->neep_req_needed;
-    //     $neep['neep_req_expert_needed'] = $request->neep_req_expert_needed;
-    //     $neep['neep_req_purpose'] = $request->neep_req_purpose;
-    //     $neep['neep_req_msg'] = $request->neep_req_msg;
-    //     $neep['neep_req_letter'] = $req_letter;
-    //     $neep['neep_req_usr_id'] = $request->app_usr_id;
-    //     $neep['neep_nes_token'] = $request->app_form_token;
-    //     $neep['date_created'] = date('Y-m-d H:i:s');
-
-    //     $current_year = date('y');
-
-    //     $check_tracking = Neep::checkTrackingByYear($current_year);
-
-    //     $neep['neep_req_tracking_no'] = (count($check_tracking) > 0 ) ? count($check_tracking) + 1 : 1; 
-
-    //     Neep::SubmitRequest($neep);
-
-    //     // send email to next processor/applicant
-    //     $next_processor = User::where('user_grp_id', '8')->get(['email']);
-    //     $email_data['name'] = AdminProfile::select('user_name')->where('user_id', '8')->first(['user_name'])->user_name;
-    //     $email_data['content'] = EmailNotification::where('enc_process_id', '5')->first(['enc_content'])->enc_content;
-    //     $email_data['subject'] = EmailNotification::where('enc_process_id', '5')->first(['enc_subject'])->enc_subject;
-
-    //     Mail::to($next_processor)->send(new ProcessNotification($email_data));
-    // }
 
     public function processStep6(Request $request){
 
-        $description = ($request->app_status == 1) ? 'Approved by Finance Committee' : 'Disapproved by Finance Committee';
+        $description = ($request->app_status == 1) ? 'Approved by STSP Committee' : 'Disapproved by STSP Committee';
 
         // update application status
         $data = [
@@ -691,12 +613,12 @@ class ApplicationsController extends Controller
         Tracking::Create($tracking)->save();
 
         // send email to next processor/applicant
-        $this->sendEmailNotification(6, 9, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
+        $this->sendEmailNotification(6, 8, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
     }
 
     public function processStep7(Request $request){
 
-        $description = ($request->app_status == 1) ? 'Approved by NRCP GB' : 'Disapproved by NRCP GB';
+        $description = ($request->app_status == 1) ? 'Approved by Finance Committee' : 'Disapproved by Finance Committee';
 
         // update application status
         $data = [
@@ -722,10 +644,41 @@ class ApplicationsController extends Controller
         Tracking::Create($tracking)->save();
 
         // send email to next processor/applicant
-        $this->sendEmailNotification(7, 10, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
+        $this->sendEmailNotification(7, 9, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
     }
 
-    public function processStep8A(Request $request){
+    public function processStep8(Request $request){
+
+        $description = ($request->app_status == 1) ? 'Approved by NRCP GB' : 'Disapproved by NRCP GB';
+
+        // update application status
+        $data = [
+            'app_remarks' => $request->app_remarks,
+            'app_status' => 7
+        ];
+
+        Status::where([
+            'app_stps_id' => $request->app_stps_id,
+            'app_form_token' => $request->app_form_token,
+            'app_usr_id' => $request->app_usr_id,
+        ])->update(array_filter($data));
+
+        // save tracking status
+        $tracking = [
+            'description' => $description,
+            'form_token' => $request->app_form_token,
+            'status' => 7,
+            'usr_id' => Auth::user()->user_id,
+            'remarks' => $request->app_remarks
+        ];
+
+        Tracking::Create($tracking)->save();
+
+        // send email to next processor/applicant
+        $this->sendEmailNotification(8, 10, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
+    }
+
+    public function processStep9A(Request $request){
 
         // save attachments
         $f1 = $request->file('fin_draft');
@@ -784,7 +737,7 @@ class ApplicationsController extends Controller
 
         // update application status
         $data = [
-            'app_status' => 7,
+            'app_status' => 8,
             'app_remarks' => $request->fin_remarks
         ];
 
@@ -798,7 +751,7 @@ class ApplicationsController extends Controller
         $tracking = [
             'description' => 'Submitted to OED for finalization and approval',
             'form_token' => $request->app_form_token,
-            'status' => 7,
+            'status' => 8,
             'usr_id' => Auth::user()->user_id,
             'remarks' => $request->fin_remarks
         ];
@@ -806,17 +759,17 @@ class ApplicationsController extends Controller
         Tracking::Create($tracking)->save();
 
         // send email to next processor/applicant
-        $this->sendEmailNotification(8, 4, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
+        $this->sendEmailNotification(9, 4, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
     }
 
-    public function processStep9(Request $request){
+    public function processStep10(Request $request){
 
         $description = ($request->app_status == 1) ? 'Approved by OED' : 'Disapproved by OED';
 
         // update application status
         $data = [
             'app_remarks' => $request->app_remarks,
-            'app_status' => 8
+            'app_status' => 9
         ];
 
         Status::where([
@@ -829,7 +782,7 @@ class ApplicationsController extends Controller
         $tracking = [
             'description' => $description,
             'form_token' => $request->app_form_token,
-            'status' => 8,
+            'status' => 9,
             'usr_id' => Auth::user()->user_id,
             'remarks' => $request->app_remarks
         ];
@@ -837,10 +790,10 @@ class ApplicationsController extends Controller
         Tracking::Create($tracking)->save();
 
         // send email to next processor/applicant
-        $this->sendEmailNotification(9, 10, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
+        $this->sendEmailNotification(10, 10, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
     }
 
-    public function processStep10(Request $request){
+    public function processStep11(Request $request){
 
         // save attachments
         $f1 = $request->file('post_travel_docs');
@@ -880,7 +833,7 @@ class ApplicationsController extends Controller
         // update application status
         $data = [
             'app_remarks' => $request->post_remarks,
-            'app_status' => 9
+            'app_status' => 10
         ];
 
         Status::where([
@@ -893,15 +846,15 @@ class ApplicationsController extends Controller
         $tracking = [
             'description' => 'Submitted Post Activity Report',
             'form_token' => $request->app_form_token,
-            'status' => 9,
+            'status' => 10,
             'usr_id' => Auth::user()->user_id,
             'remarks' => $request->post_remarks
         ];
 
         Tracking::Create($tracking)->save();
 
-        // send email to next processor/applicant
-        $this->sendEmailNotification(10, 4, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
+        // send email to director for post activty report
+        $this->sendEmailNotification(11, 4, $request->app_stps_id, $request->app_form_token, $request->app_usr_id);
     }   
 
     public function sendEmailNotification($proc_id, $next_proc, $stps, $token, $uid){
@@ -1154,6 +1107,7 @@ class ApplicationsController extends Controller
         $venue = Venue::where(['ven_stps_id' => $stps, 'ven_form_token' => $token, 'ven_usr_id' => $uid])->get();
         $participant = count(Participant::where(['prt_stps_id' => $stps, 'prt_form_token' => $token, 'prt_usr_id' => $uid])->get());
         $attachment = Attachment::where(['att_stps_id' => $stps, 'att_form_token' => $token, 'att_usr_id' => $uid])->get();
+        $participants = Participant::where(['prt_stps_id' => $stps, 'prt_form_token' => $token, 'prt_usr_id' => $uid])->get();
 
         $regions = (new LibraryController)->getRegions();
         $provinces = Application::getProvinces();
@@ -1174,6 +1128,7 @@ class ApplicationsController extends Controller
        
         $members = (new LibraryController)->getNrcpMembers();
         $experts = Experts::where(['exp_stps_id' => $stps, 'exp_form_token' => $token])->get();
+        $budget = TotalBudget::where(['bud_stps_id' => $stps, 'bud_form_token' => $token])->first(['bud_total_nrcp'])->bud_total_nrcp;
 
         return view('admin.app_data', compact('active', 
                                         'flag', 
@@ -1198,8 +1153,83 @@ class ApplicationsController extends Controller
                                         'finalization_a_att',
                                         'post_act_rep_att',
                                         'members',
-                                        'experts'
+                                        'experts',
+                                        'budget',
+                                        'participants'
                                         ));
 
     }
+
+       // public function processStep4Bx(Request $request){
+
+    //     $description = 'Submitted Recommended Expert/s';
+
+    //     // update application status
+    //     $data = [
+    //         'app_remarks' => $request->app_remarks,
+    //         'app_status' => '4B'
+    //     ];
+
+    //     Status::where([
+    //         'app_stps_id' => $request->app_stps_id,
+    //         'app_form_token' => $request->app_form_token,
+    //         'app_usr_id' => $request->app_usr_id,
+    //     ])->update(array_filter($data));
+
+    //     // save tracking status
+    //     $tracking = [
+    //         'description' => $description,
+    //         'form_token' => $request->app_form_token,
+    //         'status' => '4B',
+    //         'usr_id' => Auth::user()->user_id,
+    //         'remarks' => $request->app_remarks
+    //     ];
+
+    //     Tracking::Create($tracking)->save();
+
+    //     // save request to neep database
+    //     // todo get info institution name and address
+    //     $file = $request->file('neep_req_letter');
+    //     $req_letter = date('ymhis') . '_' . $file->getClientOriginalName();
+    //     Storage::disk('neep')->put($req_letter, $req_letter);
+
+    //     $contact = Contact::where(['con_form_token' => $request->app_form_token, 'con_usr_id' => $request->app_usr_id])->get();
+    //     $neep = array();
+
+    //     foreach($contact as $row){
+    //         $neep['neep_req_inst_name'] = $row->con_ins;
+    //         $neep['neep_req_inst_region'] = $row->con_reg;
+    //         $neep['neep_req_inst_province'] = $row->con_prov;
+    //         $neep['neep_req_inst_city'] = $row->con_city;
+    //         $neep['neep_req_inst_brgy'] = $row->con_brgy;
+    //         $neep['neep_req_inst_street'] = $row->con_address;
+    //     }
+
+    //     $neep['neep_date_of_engagement'] = Activity::where(['act_form_token' => $request->app_form_token, 'act_usr_id' => $request->app_usr_id])->first(['act_start'])->act_start;
+
+    //     $neep['neep_req_needed'] = $request->neep_req_needed;
+    //     $neep['neep_req_expert_needed'] = $request->neep_req_expert_needed;
+    //     $neep['neep_req_purpose'] = $request->neep_req_purpose;
+    //     $neep['neep_req_msg'] = $request->neep_req_msg;
+    //     $neep['neep_req_letter'] = $req_letter;
+    //     $neep['neep_req_usr_id'] = $request->app_usr_id;
+    //     $neep['neep_nes_token'] = $request->app_form_token;
+    //     $neep['date_created'] = date('Y-m-d H:i:s');
+
+    //     $current_year = date('y');
+
+    //     $check_tracking = Neep::checkTrackingByYear($current_year);
+
+    //     $neep['neep_req_tracking_no'] = (count($check_tracking) > 0 ) ? count($check_tracking) + 1 : 1; 
+
+    //     Neep::SubmitRequest($neep);
+
+    //     // send email to next processor/applicant
+    //     $next_processor = User::where('user_grp_id', '8')->get(['email']);
+    //     $email_data['name'] = AdminProfile::select('user_name')->where('user_id', '8')->first(['user_name'])->user_name;
+    //     $email_data['content'] = EmailNotification::where('enc_process_id', '5')->first(['enc_content'])->enc_content;
+    //     $email_data['subject'] = EmailNotification::where('enc_process_id', '5')->first(['enc_subject'])->enc_subject;
+
+    //     Mail::to($next_processor)->send(new ProcessNotification($email_data));
+    // }
 }

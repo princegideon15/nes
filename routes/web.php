@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 // login
 Route::get('/', function () { return view('auth.login');});
+Route::get('/split', function () { return view('auth.split');});
 // verify login
 Route::any('/dologin', 'Auth\LoginController@dologin');
 // create account
@@ -73,6 +74,8 @@ Auth::routes();
 // admin
 Route::get('/admin/dashboard', 'Admin\HomeController@index');
 Route::get('/admin/applications', 'Admin\HomeController@getApplications');
+// admin logs
+Route::get('/admin/logs', 'Admin\LogsController@show');
 // admin users
 Route::get('/admin/users', 'Admin\HomeController@getUsers');
 Route::get('/admin/clients', 'Admin\HomeController@getClients');
@@ -83,6 +86,9 @@ Route::get('/admin/user/remove/{uid}', 'Admin\UserController@removeUser');
 Route::get('/admin/user/set_status/{uid}/{status}', 'Admin\UserController@setUserStatus');
 Route::post('/admin/update_user/', 'Admin\UserController@updateUser');
 Route::post('/admin/create_user', 'Admin\UserController@createUser');
+// admin feedback
+Route::post('/admin/feedback/submit', 'Admin\FeedbacksController@store');
+Route::get('/admin/feedbacks', 'Admin\FeedbacksController@show');
 // admin email
 Route::get('/admin/email_notifications', 'Admin\EmailNotificationController@index');
 Route::get('/admin/email_notification/manage/{id}', 'Admin\EmailNotificationController@manageNotification');
@@ -99,7 +105,8 @@ Route::post('/save_step5', 'ApplicationsController@saveStep5');
 Route::post('/save_step6', 'ApplicationsController@saveStep6');
 
 // delete entry
-Route::post('/delete_participant/{stps_id}/{prt_id}/{usr_id}', 'ApplicationsController@delete_participant');
+Route::post('/delete_participant/{stps_id}/{prt_id}/{usr_id}', 'ApplicationsController@deleteParticipant');
+Route::post('/delete_all_participants/{stps_id}/{usr_id}', 'ApplicationsController@deleteAllParticipants');
 
 // get forms data
 Route::get('/get_step1_data', 'ApplicationsController@getStep1Data');
@@ -112,6 +119,11 @@ Route::get('/get_step6_nrcp', 'ApplicationsController@getNrcpBudget');
 Route::get('/get_step6_counter', 'ApplicationsController@getCounterBudget');
 Route::get('/get_step6_other', 'ApplicationsController@getOtherBudget');
 
+
+// client feedback
+Route::post('/feedback/submit', 'Admin\FeedbacksController@storeClientFeedback');
+
+
 // submit forms
 Route::post('/submit_step1', 'ApplicationsController@submitStep1');
 Route::post('/submit_step2', 'ApplicationsController@submitStep2');
@@ -122,6 +134,8 @@ Route::post('/submit_step6', 'ApplicationsController@submitStep6');
 
 // get applications by user id
 Route::get('/get_applications', 'ApplicationsController@getApplicationsData');
+// get currrent address by user id
+Route::get('/get_current_address', 'PersonalProfileController@getCurrentAddress');
 // count particpants
 Route::get('/count_participants/{value}', 'ApplicationsController@countParticipants');
 
@@ -136,9 +150,10 @@ Route::post('/process_step4C_add_experts', 'Admin\ApplicationsController@process
 Route::post('/process_step5', 'Admin\ApplicationsController@processStep5');
 Route::post('/process_step6', 'Admin\ApplicationsController@processStep6');
 Route::post('/process_step7', 'Admin\ApplicationsController@processStep7');
-Route::post('/process_step8A', 'Admin\ApplicationsController@processStep8A');
-Route::post('/process_step9', 'Admin\ApplicationsController@processStep9');
+Route::post('/process_step8', 'Admin\ApplicationsController@processStep8');
+Route::post('/process_step9A', 'Admin\ApplicationsController@processStep9A');
 Route::post('/process_step10', 'Admin\ApplicationsController@processStep10');
+Route::post('/process_step11', 'Admin\ApplicationsController@processStep11');
 
 
 
@@ -155,7 +170,8 @@ Route::get('/app_data/{token}', 'ApplicationsController@show');
 // tracking status
 Route::get('/get_tracking/{id}/{token}', 'TrackingController@show');
 // tracker in dashboard
-Route::post('/tracker_dashboard', 'TrackingController@trackApplication');
+Route::post('/tracker_dashboard', 'TrackingController@trackApplicationFromDashboard');
+Route::post('/tracker_page', 'TrackingController@trackApplication');
 // personal profile 
 Route::get('/profile', 'PersonalProfileController@show');
 // update account 
@@ -171,16 +187,14 @@ Route::post('/admin/update_account', 'Admin\UserController@updateAccount');
 
 
 // tests
-
-
+Route::get('/admin/vdb', 'Admin\UserController@tester');
 Route::get('/tester', 'ApplicationsController@tester');
-
 // Route::get('/send-mail2','ApplicationsController@send_email_test');
 Route::get('/send-mail', function () {
 
     $email_data = [ 'name' => 'Gerard Balde',
-        'email' => 'test@mail.com', 
-        'password' => 'test pass'];
+        'subject' => 'test@mail.com', 
+        'content' => 'test pass'];
 
     return new \App\Mail\ApplicationNotification($email_data);
 });

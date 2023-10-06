@@ -68,6 +68,11 @@ class UserGroupsSeeder extends Seeder
                 'usr_grp_id' => '10',
                 'usr_grp_role' => 'IDS',
                 'created_at' => date("Y-m-d H:i:s")
+            ],
+            [
+                'usr_grp_id' => '11',
+                'usr_grp_role' => 'BUDGET',
+                'created_at' => date("Y-m-d H:i:s")
             ]
         ]);  
     }

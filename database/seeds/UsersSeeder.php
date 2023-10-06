@@ -77,6 +77,13 @@ class UsersSeeder extends Seeder
                 'user_id' => 10,
                 'user_grp_id' => 10
             ],
+            [
+                'email' => 'budget@test.com',
+                'password' => '$2y$10$PeXMLNWU7d5dJOWubC7ut.dxF5Qxk9B2Q0Lg04JUWEED5oApeBunC',
+                'password_copy' => 'nrcp123123',
+                'user_id' => 11,
+                'user_grp_id' => 11
+            ],
         ]);  
     }
 }

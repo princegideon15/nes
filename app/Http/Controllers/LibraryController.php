@@ -41,7 +41,9 @@ class LibraryController extends Controller
     public function getNrcpMember(Request $request){
         return DB::connection('skms')->table('tblusers')
         ->join('tblpersonal_profiles','usr_id','=','pp_usr_id', 'inner')
-        ->where('pp_email', $request->email)->get()->toArray();
+        ->where('pp_email', $request->email)
+        ->where('usr_grp_id', 3)
+        ->get()->toArray();
     }
 
     public function getNrcpMembers(){

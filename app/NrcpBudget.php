@@ -13,9 +13,7 @@ class NrcpBudget extends Model
     protected $fillable = ['lib_stps_id', 'lib_usr_id', 'lib_form_token', 'lib_prt_id', 'lib_amount'];
        
     public function getTableColumns($table) {
-
         return $this->getConnection()->getSchemaBuilder()->getColumnListing($table);
-
     }
 
     static function getData($u_id, $stps_id){

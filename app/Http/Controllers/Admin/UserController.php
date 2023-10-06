@@ -10,11 +10,23 @@ use App\Http\Controllers\LibraryController;
 
 use App\User;
 use App\AdminProfile;
+use App\Feedback;
+use App\Logs;
 use Auth;
 use Hash;
 
 class UserController extends Controller
 {
+    /**
+      * Create a new controller instance.
+      *
+      * @return void
+      */
+      public function __construct()
+      {
+          $this->middleware('auth');
+      }
+
      /**
      * Show the application dashboard.
      *
@@ -62,8 +74,6 @@ class UserController extends Controller
         $email_data['temp_pass'] = $request->input('password');
 
         Mail::to($request->input('email'))->send(new NewAccountNotification($email_data));
-
-      //   duplicate entry issue
      }
 
      public function updateUser(Request $request)
@@ -86,24 +96,50 @@ class UserController extends Controller
 
      public function activateUser($uid){
 
-         AdminProfile::where('user_id', $uid)->update(['user_status'=>'1']);
+        $os = Browser::platformFamily() . ' ' . Browser::platFormVersion();
+        $browser = Browser::browserName();
+        $date = date("F j, Y, g:i a");
+        $ip = request()->ip();
 
-         return redirect('/admin')->withSuccess('Account Activated! You can now log in.');
+        AdminProfile::where('user_id', $uid)->update(['user_status'=>'1']);
+        $user_email = User::where('user_id', $uid)->first(['email'])->email;
+        
+        $logs = array('log_user_id' => $uid, 
+        'log_email' => $user_email, 
+        'log_ip_address' => $ip,
+        'log_user_agent' => $os,
+        'log_browser' => $browser,
+        'log_description' => 'Reset Password successful', 
+        'log_controller' => str_replace('App\Http\Controllers\\','', __CLASS__) .'::'. __FUNCTION__);
+
+        Logs::create($logs);
+
+        return redirect('/admin')->withSuccess('Account Activated! You can now log in.');
      }
 
      public function userSettings($uid){
-
-      // library
-      $roles = (new LibraryController)->getRoles();
-   
-      // data
-      $role = Auth::user()->user_grp_id;
-      $admin_info = User::adminProfile($uid);
       
-      return view('admin.user_settings', compact('role',
-                                                 'admin_info',
-                                                 'roles'
-                                                ));
+      $role = Auth::user()->user_grp_id;
+      if($role == 1){
+
+        // library
+        $roles = (new LibraryController)->getRoles();
+     
+        // data
+        $role = Auth::user()->user_grp_id;
+        $admin_info = User::adminProfile($uid);
+        $user_logs = Logs::where('log_user_id', $uid)->orderBy('created_at', 'desc')->get();
+        $feedbacks = Feedback::where('fdbk_user_id', $uid)->orderBy('created_at', 'desc')->get();
+        
+        return view('admin.user_settings', compact('role',
+                                                   'admin_info',
+                                                   'roles',
+                                                   'user_logs',
+                                                   'feedbacks'
+                                                  ));
+      }else{
+          abort(404);
+      }
      }
 
      public function removeUser($uid){
@@ -149,8 +185,14 @@ class UserController extends Controller
       $user_data = User::where('user_id',Auth::user()->user_id)->get()->toArray();
       $admin_name = AdminProfile::where('user_id', Auth::user()->user_id)->first(['user_name'])->user_name;
       $role = Auth::user()->user_grp_id;
-
-      return view('admin.profile', compact('admin_info', 'user_data', 'admin_name', 'role', 'roles'));
+      $feedbacks = Feedback::getAdminFeedbacksById(Auth::user()->user_id);
+ 
+      return view('admin.profile', compact('admin_info', 'user_data', 'admin_name', 'role', 'roles', 'feedbacks'));
+     }
+     
+     public function tester(){
+      
+      return view('admin.datatable');
      }
 
 }

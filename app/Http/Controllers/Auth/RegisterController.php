@@ -64,42 +64,68 @@ class RegisterController extends Controller
     {
 
         $data = array();
-
-        
         $uid = random_int(100000, 999999);
 
         $data['email'] = $request->input('email');
 
-        // get password in SKMS if member
+        // save authentication
         if($request->pp_member == 1){
-            $data['user_id'] = User::getNrcpMemberAuth($request->email);
+            $member = User::getNrcpMemberAuth($request->email);
+
+            foreach($member as $row){
+                $data['password'] = $row->usr_password;
+                $data['user_id'] = $row->pp_id;
+            }
         }else{
             $data['password'] = Hash::make($request->input('password'));
             $data['password_copy'] = $request->input('password');
             $data['user_id'] = $uid;
         }
     
-        User::create($data);
+        User::create(array_filter($data));
 
-        // save personal profile non member only
-        if($request->pp_member == 2){
+        // save personal profile
+        $data1 = array();
+        if($request->pp_member == 1){
+        
+            // get personal profile
+            $member = User::getNrcpMemberAuth($request->email);
+            $data1['pp_member'] = $request->pp_member;
+            foreach($member as $row){
+                $data1['pp_title'] = $row->pp_title;
+                $data1['pp_last_name'] = $row->pp_last_name;
+                $data1['pp_middle_name'] = $row->pp_middle_name;
+                $data1['pp_first_name'] = $row->pp_first_name;
+                $data1['pp_extension'] = $row->pp_extension ;
+                $data1['pp_age'] = $row->pp_date_of_birth ;
+                $data1['pp_sex'] = $row->pp_sex ;
+            }
 
-            $data1 = array();
+            // get employment details
+            $member = User::getNrcpMemberEmp($data['user_id']);
+            foreach($member as $row){
+                $data1['pp_region'] = $row->emp_region;
+                $data1['pp_prov'] = $row->emp_province;
+                $data1['pp_city'] = $row->emp_city;
+                $data1['pp_brgy'] = $row->emp_address;
+                $data1['pp_ins'] = $row->emp_ins;
+                $data1['pp_pos'] = $row->emp_pos ;
+            }
 
+            $data1['pp_user_id'] = $data['user_id'];
+        }else{
             $model1 = new PersonalProfile;
             $row1 = $model1->getTableColumns('tblpersonal_profiles');
             foreach($row1 as $field1){
                     $data1[$field1] = $request->input($field1);
             }
             $data1['pp_user_id'] = $uid;
-
-            PersonalProfile::create($data1);
-
         }
+
+        PersonalProfile::create(array_filter($data1));
 
         // save both registration
         $data2 = array();
-
         $model2 = new RegistrationProfile;
         $row2 = $model2->getTableColumns('tblregistration_profiles');
         foreach($row2 as $field2){
@@ -107,15 +133,16 @@ class RegisterController extends Controller
         }
 
         if($request->pp_member == 1){
-            $data2['reg_user_id'] = User::getNrcpMemberAuth($request->email);
+            // $data2['reg_user_id'] = User::getNrcpMemberAuth($request->email);
+          
+                $data2['reg_user_id'] = $data['user_id'];
+            
+
         }else{
             $data2['reg_user_id'] = $uid;
         }
 
         RegistrationProfile::create($data2);
-
-        return $data;
-
     }
 
     /**

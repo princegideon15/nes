@@ -7,8 +7,9 @@
     <admin-profile-component 
         :user-data="{{ json_encode($user_data) }}"
         :admin-data="{{ json_encode($admin_name) }}"
-        :roles-data="{{ json_encode($roles) }}">
-    </admin-profile-component>
+        :roles-data="{{ json_encode($roles) }}"
+        :feedbacks-data="{{ json_encode($feedbacks) }}"
+        ></admin-profile-component>
 </div>
 
 @endsection
