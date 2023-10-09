@@ -4,7 +4,7 @@
 @extends('admin.layouts.nav')
 
 
-<div class="p-4 sm:ml-64 mt-14 bg-gray-100 h-full">
+<div class="p-4 sm:ml-64 mt-14 bg-gray-100">
 
 
     <nav class="flex mb-5 px-5 py-3 shadow bg-white text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
@@ -197,6 +197,39 @@
         </div>
 
 
+    </div>
+    
+    <div class="grid grid-cols-3 gap-4 mb-4">
+        <div class="w-full">
+            <figure class="highcharts-figure">
+                <div id="container"></div>
+                <p class="highcharts-description">
+                    Pie charts are very popular for showing a compact overview of a
+                    composition or comparison. While they can be harder to read than
+                    column charts, they remain a popular choice for small datasets.
+                </p>
+            </figure>
+        </div>
+        <div class="w-full">
+            <figure class="highcharts-figure">
+                <div id="container2"></div>
+                <p class="highcharts-description">
+                    Pie charts are very popular for showing a compact overview of a
+                    composition or comparison. While they can be harder to read than
+                    column charts, they remain a popular choice for small datasets.
+                </p>
+            </figure>
+        </div>
+        <div class="w-full">
+            <figure class="highcharts-figure">
+                <div id="container3"></div>
+                <p class="highcharts-description">
+                    Pie charts are very popular for showing a compact overview of a
+                    composition or comparison. While they can be harder to read than
+                    column charts, they remain a popular choice for small datasets.
+                </p>
+            </figure>
+        </div>
     </div>
 
 </div>

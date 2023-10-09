@@ -95,8 +95,18 @@ Route::get('/admin/email_notification/manage/{id}', 'Admin\EmailNotificationCont
 Route::any('/admin/email_notification/update', 'Admin\EmailNotificationController@updateNotification');
 // admin app data
 Route::any('/admin/app_data/{stps}/{token}/{uid}', 'Admin\ApplicationsController@show');
+// admin
 
 // save forms
+// Route::resource(ApplicationsController::class)->group(function(){
+//     Route::post('/save_step1', 'saveStep1');
+//     Route::post('/save_step2', 'saveStep2');
+//     Route::post('/save_step3', 'saveStep3');
+//     Route::post('/save_step4', 'saveStep4');
+//     Route::post('/save_step5', 'saveStep5');
+//     Route::post('/save_step6', 'saveStep6');
+// });
+
 Route::post('/save_step1', 'ApplicationsController@saveStep1');
 Route::post('/save_step2', 'ApplicationsController@saveStep2');
 Route::post('/save_step3', 'ApplicationsController@saveStep3');
