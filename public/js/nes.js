@@ -27,7 +27,7 @@ $(document).ready(function () {
             type: 'pie'
         },
         title: {
-            text: 'Browser market shares in May, 2020',
+            text: 'Registered Applicants by Sex',
             align: 'left'
         },
         tooltip: {
@@ -89,10 +89,10 @@ $(document).ready(function () {
         type: 'column'
     },
     title: {
-        text: 'Monthly Average Rainfall'
+        text: 'Monthly Applications'
     },
     subtitle: {
-        text: 'Source: WorldClimate.com'
+        // text: 'Source: WorldClimate.com'
     },
     xAxis: {
         categories: [
@@ -159,13 +159,12 @@ $(document).ready(function () {
         type: 'bar'
     },
     title: {
-        text: 'Historic World Population by Region',
+        text: 'Applicants by Category',
         align: 'left'
     },
     subtitle: {
         text: 'Source: <a ' +
-            'href="https://en.wikipedia.org/wiki/List_of_continents_and_continental_subregions_by_population"' +
-            'target="_blank">Wikipedia.org</a>',
+            'Division, Stockholder and Management',
         align: 'left'
     },
     xAxis: {
