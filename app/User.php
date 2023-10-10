@@ -110,8 +110,9 @@ class User extends Authenticatable
     static function getClients(){
         return DB::table('users')
         ->select(DB::raw('CONCAT(pp_last_name, ", ",pp_first_name) as name'), 
-        'email', 
-         DB::raw('(SELECT count(*) FROM tblcontacts where con_usr_id LIKE user_id) as apps'),
+        'email', 'pp_sex', 'pp_pos', 'pp_ins', 
+        DB::raw('CONCAT(pp_brgy, ", ", pp_city, ", ", pp_prov, ", ", pp_region) as address'),
+        DB::raw('(SELECT count(*) FROM tblcontacts where con_usr_id LIKE user_id) as apps'),
         'tblregistration_profiles.created_at as date_registered', 'reg_category', 'sub_category', 'sub2_category')
         ->join('tblpersonal_profiles','pp_user_id','=','user_id')
         ->join('tblregistration_profiles','reg_user_id','=','user_id')

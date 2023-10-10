@@ -18,6 +18,46 @@ $(document).ready(function () {
         }]
     });
 
+    let reg_r = new DataTable('#registered_report_table', {
+        dom: 'Bfrltip',
+        buttons: [{
+                    extend: 'colvis',
+                    text: 'Show Column',
+                  },{
+                    extend: 'excel',
+                    text: 'Download Excel',
+                    messageTop: 'List of Registered Clients',
+                    title: 'NES - List of Registered Clients'
+                  },{
+                    extend: 'pdf',
+                    text: 'Dowload PDF',
+                    messageTop: 'List of Registered Clients',
+                    title: 'NES - List of Registered Clients'
+                  },
+                  'print'
+        ]
+    });
+
+    let sub_r = new DataTable('#submitted_applications_report_table', {
+        dom: 'Bfrltip',
+        buttons: [{
+                    extend: 'colvis',
+                    text: 'Show Column',
+                  },{
+                    extend: 'excel',
+                    text: 'Download Excel',
+                    messageTop: 'List of Submitted Applications',
+                    title: 'NES - List of Submitted Applications'
+                  },{
+                    extend: 'pdf',
+                    text: 'Dowload PDF',
+                    messageTop: 'List of Submitted Applications',
+                    title: 'NES - List of Submitted Applications'
+                  },
+                  'print'
+        ]
+    });
+
     tinymce.init({
         selector: '#enc_content',
         forced_root_block: false,

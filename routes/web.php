@@ -95,6 +95,9 @@ Route::get('/admin/email_notification/manage/{id}', 'Admin\EmailNotificationCont
 Route::any('/admin/email_notification/update', 'Admin\EmailNotificationController@updateNotification');
 // admin app data
 Route::any('/admin/app_data/{stps}/{token}/{uid}', 'Admin\ApplicationsController@show');
+// admin reports
+Route::get('/admin/reports', 'Admin\ReportsController@index');
+
 
 // save forms
 Route::post('/save_step1', 'ApplicationsController@saveStep1');

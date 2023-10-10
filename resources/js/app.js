@@ -35,6 +35,7 @@ Vue.component('user-settings-component', require('./components/Admin/UserSetting
 Vue.component('email-notifications-component', require('./components/Admin/EmailNotificationsComponent.vue').default);
 Vue.component('view-data-component', require('./components/Admin/AppDataComponent.vue').default);
 Vue.component('admin-profile-component', require('./components/Admin/AdminProfileComponent.vue').default);
+Vue.component('reports-component', require('./components/Admin/ReportsComponent.vue').default);
 
 //Vue.component('manage-email-notification-component', require('./components/Admin/ManageEmailNotificationComponent.vue').default);
 
