@@ -58,6 +58,65 @@ $(document).ready(function () {
         ]
     });
 
+    let com_r = new DataTable('#completed_applications_report_table', {
+        dom: 'Bfrltip',
+        buttons: [{
+                    extend: 'colvis',
+                    text: 'Show Column',
+                  },{
+                    extend: 'excel',
+                    text: 'Download Excel',
+                    messageTop: 'List of Completed Applications',
+                    title: 'NES - List of Completed Applications'
+                  },{
+                    extend: 'pdf',
+                    text: 'Dowload PDF',
+                    messageTop: 'List of Completed Applications',
+                    title: 'NES - List of Completed Applications'
+                  },
+                  'print'
+        ]
+    });
+
+    let ins_r = new DataTable('#institutions_report_table', {
+        dom: 'Bfrltip',
+        buttons: [{
+                    extend: 'colvis',
+                    text: 'Show Column',
+                  },{
+                    extend: 'excel',
+                    text: 'Download Excel',
+                    messageTop: 'List of Requesting Institutions',
+                    title: 'NES - List of Requesting Institutions'
+                  },{
+                    extend: 'pdf',
+                    text: 'Dowload PDF',
+                    messageTop: 'List of Requesting Institutions',
+                    title: 'NES - List of Requesting Institutions'
+                  },
+                  'print'
+        ]
+    });
+    let feed_r = new DataTable('#feedbacks_report_table', {
+        dom: 'Bfrltip',
+        buttons: [{
+                    extend: 'colvis',
+                    text: 'Show Column',
+                  },{
+                    extend: 'excel',
+                    text: 'Download Excel',
+                    messageTop: 'List of Feedbacks',
+                    title: 'NES - List of Feedbacks'
+                  },{
+                    extend: 'pdf',
+                    text: 'Dowload PDF',
+                    messageTop: 'List of Feedbacks',
+                    title: 'NES - List of Feedbacks'
+                  },
+                  'print'
+        ]
+    });
+
     tinymce.init({
         selector: '#enc_content',
         forced_root_block: false,

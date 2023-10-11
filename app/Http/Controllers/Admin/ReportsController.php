@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\LibraryController;
 use App\User;
 use App\Application;
+use App\Contact;
+use App\Feedback;
 use Auth;
 
 class ReportsController extends Controller
@@ -26,16 +28,12 @@ class ReportsController extends Controller
         $role = Auth::user()->user_grp_id;
         $activities =(new LibraryController)->getActType();
 
-
         $clients = User::getClients();
         $submitted = Application::getSubmittedApplications();
-        // $completed = Applications::getCompletedApplications();
-        // $institutions = Applications::getInstitutionsApplication();
-        // $feedbacks = Feedbacks::getClientFeedbacks();
-        $completed = '';
-        $institutions = '';
-        $feedbacks = '';
-
+        $completed = Application::getCompletedApplications();
+        $institutions = Contact::get()->toArray();
+        $feedbacks = Feedback::getClientFeedbacks();
+      
         return view('admin.reports', compact('admin_info', 
         'role', 
         'clients',

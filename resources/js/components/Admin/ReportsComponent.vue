@@ -179,13 +179,48 @@
                 </h2>
                 <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
                     <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.</p>
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no technical reason stopping you from using the best of two worlds.</p>
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
-                    <ul class="pl-5 text-gray-500 list-disc dark:text-gray-400">
-                        <li><a href="https://flowbite.com/pro/" class="text-blue-600 dark:text-blue-500 hover:underline">Flowbite Pro</a></li>
-                        <li><a href="https://tailwindui.com/" rel="nofollow" class="text-blue-600 dark:text-blue-500 hover:underline">Tailwind UI</a></li>
-                    </ul>
+                        <div class="relative overflow-x-auto">
+                            <table id="completed_applications_report_table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400 display">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            #
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Activity
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Duration
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Requested Institution
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Date Submitted
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr v-for="(row, index) in completed" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {{ index + 1 }}
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {{ formatActivity(row.act_req_id) }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ formatDate(row.act_start) }} - {{ formatDate(row.act_end)}}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ row.con_ins }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ formatDate(row.date_submitted) }}
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -200,64 +235,52 @@
                 <div id="accordion-collapse-body-4" class="hidden" aria-labelledby="accordion-collapse-heading-4">
                     <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                         <div class="relative overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <table id="institutions_report_table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">
-                                            Product name
+                                            #
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Color
+                                            Institution
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Category
+                                            Institution Head
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Price
+                                            Address
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Contact Person
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Contact No.
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <tr v-for="(row, index) in institutions" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            Apple MacBook Pro 17"
+                                            {{  index + 1 }}
                                         </th>
                                         <td class="px-6 py-4">
-                                            Silver
+                                            {{  row.con_ins }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            Laptop
+                                            {{  row.con_head_ins }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            $2999
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            Microsoft Surface Pro
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            White
+                                            {{  row.con_address }}, 
+                                            {{  row.con_brgy }}, 
+                                            {{  row.con_city }}, 
+                                            {{  row.con_prov }}, 
+                                            {{  row.con_reg }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            Laptop PC
+                                            {{  row.con_focal_p }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            $1999
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white dark:bg-gray-800">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            Magic Mouse 2
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            Black
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            Accessories
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            $99
+                                            {{  row.con_contact_num }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -266,75 +289,72 @@
                     </div>
                 </div>
 
-                <h2 id="accordion-collapse-heading-4">
-                    <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" data-accordion-target="#accordion-collapse-body-4" aria-expanded="false" aria-controls="accordion-collapse-body-4">
+                <h2 id="accordion-collapse-heading-5">
+                    <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" data-accordion-target="#accordion-collapse-body-5" aria-expanded="false" aria-controls="accordion-collapse-body-5">
                     <span>List of Feedbacks</span>
                     <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
                     </svg>
                     </button>
                 </h2>
-                <div id="accordion-collapse-body-4" class="hidden" aria-labelledby="accordion-collapse-heading-4">
+                <div id="accordion-collapse-body-5" class="hidden" aria-labelledby="accordion-collapse-heading-5">
                     <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                         <div class="relative overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <table id="feedbacks_report_table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">
-                                            Product name
+                                            #
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Color
+                                            User
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Category
+                                            Remarks
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Price
+                                            Rating
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Date
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <tr v-for="(row, index) in feedbacks" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            Apple MacBook Pro 17"
+                                            {{ index + 1 }}
                                         </th>
                                         <td class="px-6 py-4">
-                                            Silver
+                                            {{ row.pp_first_name }}, {{ row.pp_last_name }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            Laptop
+                                            {{ row.fdbk_remarks ?? 'No remarks' }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            $2999
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            Microsoft Surface Pro
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            White
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            Laptop PC
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            $1999
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white dark:bg-gray-800">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            Magic Mouse 2
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            Black
+                                            <span class="hidden">{{ row.fdbk_rate }}</span>
+
+                                            <div class="flex items-center space-x-2">
+                                                <span v-for="(item, index) in row.fdbk_rate">
+                                                    <svg v-if="index < row.fdbk_rate" class="w-6 h-6 text-yellow-300" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                        <path
+                                                            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                    </svg>
+                                                </span>
+
+                                                <span v-for="(item, index) in (5 - row.fdbk_rate)">
+                                                    <svg v-if="index < 5" class="w-6 h-6 text-gray-300 dark:text-gray-500" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                        viewBox="0 0 22 20">
+                                                        <path
+                                                            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                    </svg>
+                                                </span>
+                                            </div>
                                         </td>
                                         <td class="px-6 py-4">
-                                            Accessories
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            $99
+                                            {{ formatDate(row.fdbk_rate) }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -416,9 +436,9 @@
             // data
             this.clients = JSON.parse(JSON.stringify(this.clientsData))
             this.submitted = JSON.parse(JSON.stringify(this.submittedData))
-            // this.completed = JSON.parse(JSON.stringify(this.completedData))
-            // this.institutions = JSON.parse(JSON.stringify(this.institutionsData))
-            // this.feedbacks = JSON.parse(JSON.stringify(this.feedbacksData))
+            this.completed = JSON.parse(JSON.stringify(this.completedData))
+            this.institutions = JSON.parse(JSON.stringify(this.institutionsData))
+            this.feedbacks = JSON.parse(JSON.stringify(this.feedbacksData))
             
         }
     }
