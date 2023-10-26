@@ -203,31 +203,17 @@
         <div class="w-full">
             <figure class="highcharts-figure">
                 <div id="container"></div>
-                <p class="highcharts-description">
-                    Pie charts are very popular for showing a compact overview of a
-                    composition or comparison. While they can be harder to read than
-                    column charts, they remain a popular choice for small datasets.
-                </p>
+               
             </figure>
         </div>
         <div class="w-full">
             <figure class="highcharts-figure">
                 <div id="container2"></div>
-                <p class="highcharts-description">
-                    Pie charts are very popular for showing a compact overview of a
-                    composition or comparison. While they can be harder to read than
-                    column charts, they remain a popular choice for small datasets.
-                </p>
             </figure>
         </div>
         <div class="w-full">
             <figure class="highcharts-figure">
                 <div id="container3"></div>
-                <p class="highcharts-description">
-                    Pie charts are very popular for showing a compact overview of a
-                    composition or comparison. While they can be harder to read than
-                    column charts, they remain a popular choice for small datasets.
-                </p>
             </figure>
         </div>
     </div>

@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
 
     let admin_t = new DataTable('#admin_app_table');
@@ -18,6 +19,20 @@ $(document).ready(function () {
         }]
     });
 
+
+    var pie_series = [];
+
+    $.ajax({
+        method: 'GET',
+        url: '/dashboard/pie',
+        async: false,
+        success: function (response) {
+            $.each(response, function (key, val) {
+                pie_series.push({'name':val.sex,'y':val.total});
+            });
+        }
+    });
+
     // Data retrieved from https://netmarketshare.com
     Highcharts.chart('container', {
         chart: {
@@ -31,7 +46,7 @@ $(document).ready(function () {
             align: 'left'
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.y} ({point.percentage:.1f} %)</b>'
         },
         accessibility: {
             point: {
@@ -44,43 +59,14 @@ $(document).ready(function () {
                 cursor: 'pointer',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    format: '<b>{point.name}</b>: {point.y} ({point.percentage:.1f} %)',
                 }
             }
         },
         series: [{
-            name: 'Brands',
+            name: 'Sex',
             colorByPoint: true,
-            data: [{
-                name: 'Chrome',
-                y: 70.67,
-                sliced: true,
-                selected: true
-            }, {
-                name: 'Edge',
-                y: 14.77
-            },  {
-                name: 'Firefox',
-                y: 4.86
-            }, {
-                name: 'Safari',
-                y: 2.63
-            }, {
-                name: 'Internet Explorer',
-                y: 1.53
-            },  {
-                name: 'Opera',
-                y: 1.40
-            }, {
-                name: 'Sogou Explorer',
-                y: 0.84
-            }, {
-                name: 'QQ',
-                y: 0.51
-            }, {
-                name: 'Other',
-                y: 2.6
-            }]
+            data: pie_series
         }]
     });
 
@@ -92,7 +78,7 @@ $(document).ready(function () {
         text: 'Monthly Applications'
     },
     subtitle: {
-        // text: 'Source: WorldClimate.com'
+        text: 'Year 2023'
     },
     xAxis: {
         categories: [
@@ -114,7 +100,7 @@ $(document).ready(function () {
     yAxis: {
         min: 0,
         title: {
-            text: 'Rainfall (mm)'
+            text: 'Applications'
         }
     },
     tooltip: {
@@ -132,26 +118,11 @@ $(document).ready(function () {
         }
     },
     series: [{
-        name: 'Tokyo',
+        name: 'All Category',
         data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4,
             194.1, 95.6, 54.4]
 
-    }, {
-        name: 'New York',
-        data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5,
-            106.6, 92.3]
-
-    }, {
-        name: 'London',
-        data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3,
-            51.2]
-
-    }, {
-        name: 'Berlin',
-        data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8,
-            51.1]
-
-    }]
+        }]
     });
     
     Highcharts.chart('container3', {

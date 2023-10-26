@@ -36,4 +36,13 @@ class PersonalProfile extends Model
         ->get()->toArray();
     }
 
+    static function getSex(){
+
+        return DB::table('tblsex')
+        ->select('tblsex.id', 'sex', DB::raw('(SELECT COUNT(*) FROM tblpersonal_profiles WHERE pp_sex = tblsex.id) as total'))
+        ->groupBy('tblsex.id', 'sex')
+        ->get();
+        
+    }
+
 }

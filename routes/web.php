@@ -193,6 +193,8 @@ Route::get('/admin/profile', 'Admin\UserController@show');
 // update admin profile 
 Route::post('/admin/update_account', 'Admin\UserController@updateAccount');
 
+//graph
+Route::get('/dashboard/pie', 'Admin\GraphController@applicationsBySex');
 
 
 
