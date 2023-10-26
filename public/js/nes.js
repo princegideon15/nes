@@ -70,6 +70,21 @@ $(document).ready(function () {
         }]
     });
 
+    var bar_series = [];
+
+     $.ajax({
+        method: 'GET',
+        url: '/dashboard/bar',
+        async: false,
+        success: function (response) {
+
+            console.log(response);
+            $.each(response, function (key, val) {
+                bar_series.push(val.total);
+            });
+        }
+    });
+
     Highcharts.chart('container2', {
     chart: {
         type: 'column'
@@ -97,6 +112,7 @@ $(document).ready(function () {
         ],
         crosshair: true
     },
+    legend:{ enabled:false },
     yAxis: {
         min: 0,
         title: {
@@ -106,7 +122,7 @@ $(document).ready(function () {
     tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            '<td style="padding:0"><b>{point.y}</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true
@@ -118,87 +134,70 @@ $(document).ready(function () {
         }
     },
     series: [{
-        name: 'All Category',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4,
-            194.1, 95.6, 54.4]
-
+        name: 'Applications',
+        data: bar_series
         }]
     });
     
+    var col_series = [];
+
+     $.ajax({
+        method: 'GET',
+        url: '/dashboard/colbar',
+        async: false,
+        success: function (response) {
+
+            console.log(response);
+            $.each(response, function (key, val) {
+                col_series.push(val.total);
+            });
+        }
+    });
+
     Highcharts.chart('container3', {
     chart: {
         type: 'bar'
     },
     title: {
-        text: 'Applicants by Category',
-        align: 'left'
+        text: 'Applicants by Category'
     },
     subtitle: {
-        text: 'Source: <a ' +
-            'Division, Stockholder and Management',
-        align: 'left'
+        text: 'Year 2023'
     },
     xAxis: {
-        categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania'],
-        title: {
-            text: null
-        },
-        gridLineWidth: 1,
-        lineWidth: 0
+        categories: [
+            'Division Chair',
+            'Stockholders',
+            'NRCP Management',
+        ],
+        crosshair: true
     },
+    legend:{ enabled:false },
     yAxis: {
         min: 0,
         title: {
-            text: 'Population (millions)',
-            align: 'high'
-        },
-        labels: {
-            overflow: 'justify'
-        },
-        gridLineWidth: 0
-    },
-    tooltip: {
-        valueSuffix: ' millions'
-    },
-    plotOptions: {
-        bar: {
-            borderRadius: '50%',
-            dataLabels: {
-                enabled: true
-            },
-            groupPadding: 0.1
+            text: 'Applications'
         }
     },
-    legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'top',
-        x: -40,
-        y: 80,
-        floating: true,
-        borderWidth: 1,
-        backgroundColor:
-            Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-        shadow: true
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
     },
-    credits: {
-        enabled: false
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
     },
     series: [{
-        name: 'Year 1990',
-        data: [631, 727, 3202, 721, 26]
-    }, {
-        name: 'Year 2000',
-        data: [814, 841, 3714, 726, 31]
-    }, {
-        name: 'Year 2010',
-        data: [1044, 944, 4170, 735, 40]
-    }, {
-        name: 'Year 2018',
-        data: [1276, 1007, 4561, 746, 42]
-    }]
+        name: 'Applications',
+        data: col_series
+        }]
     });
-
 
 
     tinymce.init({

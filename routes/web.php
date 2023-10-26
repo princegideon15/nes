@@ -195,6 +195,8 @@ Route::post('/admin/update_account', 'Admin\UserController@updateAccount');
 
 //graph
 Route::get('/dashboard/pie', 'Admin\GraphController@applicationsBySex');
+Route::get('/dashboard/bar', 'Admin\GraphController@applicationsByMonth');
+Route::get('/dashboard/colbar', 'Admin\GraphController@applicationsByCategory');
 
 
 

@@ -45,4 +45,26 @@ class PersonalProfile extends Model
         
     }
 
+    static function getApplicationsMonthly(){
+
+        return DB::select( DB::raw('SELECT month, COUNT(con_ins) AS total FROM 
+        (SELECT 1 mm UNION ALL SELECT 2 UNION ALL SELECT 3 
+        UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
+        UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 
+        UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 ) 
+        derived LEFT JOIN tblcontacts ON derived.mm = month(tblcontacts.created_at) 
+        LEFT JOIN tblmonths ON tblmonths.id = derived.mm GROUP BY derived.mm, month'));
+        
+    }
+
+    static function applicationsByCategory(){
+
+        return DB::select( DB::raw('SELECT ut_type, COUNT(tblcontacts.con_usr_id) AS total FROM 
+        (SELECT 1 ut UNION ALL SELECT 2 UNION ALL SELECT 3) 
+        derived LEFT JOIN tblregistration_profiles on derived.ut = tblregistration_profiles.reg_category   
+        left join tblcontacts on tblcontacts.con_usr_id = tblregistration_profiles.reg_user_id 
+        left join tbluser_types on tbluser_types.id = derived.ut group by derived.ut, tbluser_types.ut_type'));
+        
+    }
+
 }

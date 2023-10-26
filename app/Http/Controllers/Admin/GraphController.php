@@ -27,4 +27,16 @@ class GraphController extends Controller
        return PersonalProfile::getSex();
     
    }
+
+   public function applicationsByMonth(){
+
+       return PersonalProfile::getApplicationsMonthly();
+    
+   }
+
+   public function applicationsByCategory(){
+
+       return PersonalProfile::applicationsByCategory();
+    
+   }
 }

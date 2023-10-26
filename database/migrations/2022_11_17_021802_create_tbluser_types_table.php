@@ -15,7 +15,6 @@ class CreateTbluserTypesTable extends Migration
     {
         Schema::create('tbluser_types', function (Blueprint $table) {
             $table->id();
-            $table->integer('ut_id');
             $table->string('ut_type');
             $table->timestamps();
         });
