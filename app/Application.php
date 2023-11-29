@@ -83,4 +83,32 @@ class Application extends Model
     static function getCities(){
         return DB::connection('skms')->table('tblcities')->get()->toArray();
     }
+
+    static function getSubmittedApplications(){
+
+            $query = DB::table('tblcontacts')->select('tblapplication_status.created_at as date_submitted', 'app_status','con_ins', 'con_form_token', 'act_req_id', 'act_start', 'act_end', 'tblcontacts.id as stps_id', 'con_usr_id', 'con_focal_p', 'con_contact_num'
+            ,DB::raw('(SELECT description FROM tbltracking WHERE form_token = con_form_token ORDER BY id DESC LIMIT 1) as description')
+            ,DB::raw('(SELECT created_at FROM tbltracking WHERE form_token = con_form_token ORDER BY id DESC LIMIT 1) as tracked_time')
+            ,DB::raw('(SELECT status FROM tbltracking WHERE form_token = con_form_token ORDER BY id DESC LIMIT 1) as status')
+            ,DB::raw('(SELECT count(*) FROM tblparticipants WHERE prt_form_token = con_form_token AND prt_usr_id = con_usr_id) as participants'))
+            ->join('tblact_requests', 'act_form_token', '=', 'con_form_token', 'left')
+            ->join('tblapplication_status', 'app_form_token', '=', 'con_form_token', 'left')
+            ->where('app_status', 0)->get();
+
+            return $query;
+    }
+
+    static function getCompletedApplications(){
+
+            $query = DB::table('tblcontacts')->select('tblapplication_status.created_at as date_submitted', 'app_status','con_ins', 'con_form_token', 'act_req_id', 'act_start', 'act_end', 'tblcontacts.id as stps_id', 'con_usr_id', 'con_focal_p', 'con_contact_num'
+            ,DB::raw('(SELECT description FROM tbltracking WHERE form_token = con_form_token ORDER BY id DESC LIMIT 1) as description')
+            ,DB::raw('(SELECT created_at FROM tbltracking WHERE form_token = con_form_token ORDER BY id DESC LIMIT 1) as tracked_time')
+            ,DB::raw('(SELECT status FROM tbltracking WHERE form_token = con_form_token ORDER BY id DESC LIMIT 1) as status')
+            ,DB::raw('(SELECT count(*) FROM tblparticipants WHERE prt_form_token = con_form_token AND prt_usr_id = con_usr_id) as participants'))
+            ->join('tblact_requests', 'act_form_token', '=', 'con_form_token', 'left')
+            ->join('tblapplication_status', 'app_form_token', '=', 'con_form_token', 'left')
+            ->where('app_status', 10)->get();
+
+            return $query;
+    }
 }

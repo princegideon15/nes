@@ -104,8 +104,8 @@
             <?php if($role == 1){ ?>
             
             <li>
-                <a href="avascript:void(0)"
-                    class="link-reports flex items-center p-2 text-gray-600 rounded-lg hover:bg-gray-700 hover:text-white  group">
+                <a href="javascript:void(0)"
+                    class="link-bris flex items-center p-2 text-gray-600 rounded-lg hover:bg-gray-700 hover:text-white  group">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                         class="flex-shrink-0 w-6 h-6 text-gray-600">
                         <path fill-rule="evenodd"
@@ -164,7 +164,7 @@
                 </a>
             </li>
             <li>
-                <a href="avascript:void(0)"
+                <a href="{{ url('/admin/reports') }}"
                     class="link-reports flex items-center p-2 text-gray-600 rounded-lg hover:bg-gray-700 hover:text-white  group">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                         class="flex-shrink-0 w-6 h-6 text-gray-600">
@@ -173,9 +173,6 @@
                             clip-rule="evenodd" />
                     </svg>
                     <span class="flex-1 ml-3 whitespace-nowrap">Reports</span>
-                    <span
-                        class="bg-gray-500 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">TBD</span>
-                    </span>
                 </a>
             </li>
             <li>
